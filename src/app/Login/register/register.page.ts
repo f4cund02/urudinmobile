@@ -14,6 +14,8 @@ export class RegisterPage implements OnInit {
 
   public log(form){
     console.log(form.value);
+    //TODO: Enviar por resto el form.value y me devuelve true 
+    //o false en caso de que se pueda crear con exito el usuario.
   }
 
 }

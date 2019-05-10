@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
 
   public log(form){
     console.log(form.value);
+    //TODO: enviar x resto el form.value y me debe devolver true o false en caso de que exista el usuario
   }
 
 }
