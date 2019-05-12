@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>MI monedero</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header>Dinero disponible </ion-card-header>
+      <ion-card-content>
+          <ion-card-title>$xx</ion-card-title>
+      </ion-card-content>
+ 
+  </ion-card>
+  <ion-card>
+    <ion-card-header>Desea cargar dinero en su monedero?</ion-card-header>
+      <ion-card-content>
+         <ion-button (click)="activardiv()">Cargar Dinero</ion-button>
+      </ion-card-content>
+ 
+  </ion-card>
+  <div id="divoculto">
+      <ion-card>
+          <ion-card-header>Ingrese el monto a cargar </ion-card-header>
+            <ion-card-content>
+                <ion-input type="number" placeholder="Monto"></ion-input>
+                <ion-button (click)="cargarmonto()">Cargar</ion-button>
+
+            </ion-card-content>
+       
+        </ion-card>
+   </div>
+</ion-content>

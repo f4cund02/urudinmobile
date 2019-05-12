@@ -6,4 +6,36 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
+  <ion-list>
+      <ion-item>
+          <ion-label >            
+              Dinero en el monedero: poner *ngif que si tengo menos de x , me ponga un mensaje
+          </ion-label>    
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="redirect1()">
+          Modificar mis datos personales
+        </ion-button>      
+      </ion-item>
+      <ion-item>
+        <ion-button (click)="redirect2()">
+          Cargar dinero en Monedero Digital
+        </ion-button>      
+      </ion-item>
+      <ion-item>
+        <ion-button >
+          Click me
+        </ion-button>      
+      </ion-item>
+      <ion-item>
+          <ion-button color="danger" i->
+            Salir
+          </ion-button>      
+        </ion-item>
+   
+  </ion-list>
+
+</ion-content>
+
 
