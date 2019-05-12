@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { RestService } from '../../Services/rest.service';
+
 
 @Component({
   selector: 'app-register',
@@ -7,14 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPage implements OnInit {
 
-  constructor() { }
+  constructor(public rest: RestService) { }
 
   ngOnInit() {
   }
 
-  public log(form){
+  public registrar(form){
     console.log(form.value);
-    //TODO: Enviar por resto el form.value y me devuelve true 
+    
+
+    //TODO: Enviar por rest el form.value y me devuelve true 
     //o false en caso de que se pueda crear con exito el usuario.
   }
 

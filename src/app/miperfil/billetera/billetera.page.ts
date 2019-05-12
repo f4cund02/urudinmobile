@@ -13,7 +13,13 @@ export class BilleteraPage implements OnInit {
   }
 
   activardiv(){
+     let div = document.getElementById("divoculto");
+     div.style.display='';
+  }
 
+  cancelar(){
+    let div = document.getElementById("divoculto");
+     div.style.display='none';
   }
 
   cargarmonto(){

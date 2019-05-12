@@ -19,12 +19,14 @@
       </ion-card-content>
  
   </ion-card>
-  <div id="divoculto">
+  <div id="divoculto" style="display: none" >
       <ion-card>
           <ion-card-header>Ingrese el monto a cargar </ion-card-header>
             <ion-card-content>
                 <ion-input type="number" placeholder="Monto"></ion-input>
+                <!-- TODO:Establece minimo y maximo-->
                 <ion-button (click)="cargarmonto()">Cargar</ion-button>
+                <ion-button (click)="cancelar()">Cancelar</ion-button>
 
             </ion-card-content>
        
