@@ -1,5 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import mapboxgl from 'mapbox-gl';
+import { RestService } from '../Services/rest.service';
+import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+
+
 
 
 @Component({
@@ -13,6 +17,10 @@ export class Tab2Page implements OnInit,  AfterViewInit {
   lat = -34.886983;
   lng = -56.144963;
 
+  constructor(public barcodeScanner: BarcodeScanner, public rest: RestService) {
+
+  }
+
   ngOnInit() {
 
   }
@@ -21,9 +29,17 @@ export class Tab2Page implements OnInit,  AfterViewInit {
     this.buildmap();
   }
 
-   onClick(){
-     console.log("Abriendo QR cam");
-   }
+   onClick() {
+      console.log('Abriendo QR cam');
+      this.barcodeScanner.scan().then(barcodeData => {
+        console.log('Barcode data', barcodeData);
+        this.rest.scooterGetInfo(barcodeData.text);
+
+      }).catch(err => {
+          console.log('Error', err);
+          console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
+      });
+    }
 
 
   buildmap() {
@@ -112,7 +128,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
           ]
         }
       },
-      
+
       {
         type: 'Feature',
         properties: {title: '6',
