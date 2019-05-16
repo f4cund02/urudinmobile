@@ -1,5 +1,29 @@
-interface scooter{
-    
+export const enViaje = false;
+export const monedero = null;
+
+
+export interface DTscooter {
+
 }
 
-//TODO: Luego que esten los rest , usar el complement "JSON TO TS"
+export interface DTnewuser {
+  nombre: string;
+  apellido: string;
+  email: string;
+}
+
+export  interface DTuser {
+    id: number;
+    nombre: string;
+    apellido: string;
+    email: string;
+    saldo: number;
+}
+
+export interface DTfactura {
+
+}
+interface DTviaje {
+
+}
+

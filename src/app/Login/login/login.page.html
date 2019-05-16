@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content color="primary" padding>
-  <form #form="ngForm" (ngSubmit)="log(form)">
+  <form #form="ngForm" (ngSubmit)="logueo(form)">
     <ion-grid>
       <ion-row color="primary" justify-content-center>
         <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
@@ -21,7 +21,7 @@
           </div>
           <div>
             <ion-row>
-              <div text-center>
+              <div id="divlog" text-center>
            Si aun no tiene una cuenta , por favor clickea <a routerLink='/register'>
               aqui</a>!!!
               </div>

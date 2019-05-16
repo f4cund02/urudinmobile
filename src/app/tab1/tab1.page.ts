@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { RestService } from '../Services/rest.service';
-import { restoreView } from '@angular/core/src/render3';
+import { DTuser } from '../models/models';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -9,12 +10,17 @@ import { restoreView } from '@angular/core/src/render3';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
-  users:any;
+export class Tab1Page   {
+  user:DTuser;
   
-  constructor(public nav:NavController, public rest:RestService){
+  constructor(public nav:NavController,
+                 public rest:RestService,
+                    public storage:Storage){
 
   }
+
+
+ 
   redirect1(){
    this.nav.navigateForward("misdatos");
     console.log("redirect to misdatos");

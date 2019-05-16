@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-
-
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import * as models from '../models/models';
+import { DTnewuser } from '../models/models';
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
 
-  constructor(public http : HttpClient) { }
+  constructor(public http: HttpClient, ) { }
 
-  //apiUrl = 'https://jsonplaceholder.typicode.com';
+  // apiUrl = 'https://jsonplaceholder.typicode.com';
 
  /* getUsers() {
     return this.http.get('https://jsonplaceholder.typicode.com/users');
@@ -22,47 +22,58 @@ export class RestService {
     return this.http.post('https://jsonplaceholder.typicode.com/users',postdata);
   }*/
 
-  userLogin(DTuser){
+  userLogin(email: String) {
+      console.log('Servicio: userLogin , parametro: ' + email);
+      return this.http.get('http://23.20.14.36:8080/rest-api/api/cliente/login?email=' + email + '');
+
+      // Seteo la variable modedero models.monedero = Dtuser.dinero;
+  }
+
+  userRegister(param: DTnewuser) {
+    const data = JSON.stringify(param);
+    console.log('Servicio: userRegister , parametro: ' + JSON.stringify(param));
+    return this.http.post('http://23.20.14.36:8080/rest-api/api/cliente/'
+                            , data, {
+                              headers: {
+                                'content-type': 'application/json' }
+                            }
+      );
+    }
+
+
+  scooterGetInfo(id: String) {
 
   }
 
-  userRegister(DTuser){
+  monederoAcreditar() {
 
   }
 
-  scooterGetInfo(id : String){
-    
-  }
-
-  monederoAcreditar(){
+  scootersGet(lat: String, lng: String) {
 
   }
 
-  scootersGet(lat:String, lng: String){
+  viajeIniciar() {
 
   }
 
-  viajeIniciar(){
+  viajeFin() {
 
   }
 
-  viajeFin(){
+  viajesGet() {
 
   }
 
-  viajesGet(){
+  pagosGet() {
 
   }
 
-  pagosGet(){
+  usuarioUpdate(DTuser) {
 
   }
 
-  usuarioUpdate(DTuser){
-
-  }
-
-  notificacionesGet(DTuser){
+  notificacionesGet(DTuser) {
 
   }
 

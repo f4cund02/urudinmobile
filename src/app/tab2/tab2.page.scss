@@ -1,12 +1,13 @@
 
 #mapid{
+    position: absolute;
     width: 100% !important;
     height: 100% !important;
     background-color: #f6f6f6;
 }
 
 .buttoniniciar{
-    position: absolute;
+    position: relative;
     pointer-events: none;
     z-index: 2;
     top: 90%;

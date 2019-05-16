@@ -2,6 +2,12 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import mapboxgl from 'mapbox-gl';
 import { RestService } from '../Services/rest.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import * as models from '../models/models';
+import { Storage } from '@ionic/storage';
+import { store } from '@angular/core/src/render3';
+
+
 
 
 
@@ -12,32 +18,52 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page implements OnInit,  AfterViewInit {
+
   map: mapboxgl.Map;
   style: 'mapbox://style/mapbox/outdoors-v9';
   lat = -34.886983;
   lng = -56.144963;
+  milat = 0;
+  milng = 0;
 
-  constructor(public barcodeScanner: BarcodeScanner, public rest: RestService) {
+  constructor(public barcodeScanner: BarcodeScanner,
+              public rest: RestService,
+              public geo: Geolocation,
+              public storage: Storage) {
 
   }
 
   ngOnInit() {
+      // TODO:Pedir por rest las coordenadas de los scooters
+      const aux = this.storage.get('me');
+      console.log(aux);
+      this.buildmap();
 
   }
 
   ngAfterViewInit() {
-    this.buildmap();
+
   }
 
+  volver() {
+    const div = document.getElementById('divInfo');
+    div.style.display = 'none';
+  }
    onClick() {
       console.log('Abriendo QR cam');
       this.barcodeScanner.scan().then(barcodeData => {
         console.log('Barcode data', barcodeData);
         this.rest.scooterGetInfo(barcodeData.text);
+        const div = document.getElementById('divInfo');
+        div.style.display = '';
+        // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
 
       }).catch(err => {
-          console.log('Error', err);
-          console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
+        const div = document.getElementById('divInfo');
+        div.style.display = '';
+
+        console.log('Error', err);
+        console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
       });
     }
 
@@ -56,6 +82,19 @@ export class Tab2Page implements OnInit,  AfterViewInit {
      // FIXME: el log siguiente da `undefined`
     console.log('log this map: ' + this.map);
 
+
+
+    // MI UBICACION//
+    this.geo.getCurrentPosition().then((resp) => {
+        // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
+         const milat = resp.coords.latitude;
+         const milng = resp.coords.longitude;
+            // this.restService.enviarLocalizacion(coords);
+      }).catch((error) => {
+            console.log('Error getting location', error);
+          });
+
+
     map.on('load', function() {
 
       map.addLayer({
@@ -66,6 +105,17 @@ export class Tab2Page implements OnInit,  AfterViewInit {
       data: {
       type: 'FeatureCollection',
           features: [
+            {
+              type: 'Feature',
+              geometry: {
+              type: 'Point',
+              coordinates: [-77.03238901390978, 38.913188059745586]
+              },
+              properties: {
+              title: '1',
+              icon: 'marker'
+              }
+            },
             {
               type: 'Feature',
               geometry: {
