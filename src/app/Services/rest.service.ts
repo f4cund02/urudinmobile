@@ -9,18 +9,7 @@ export class RestService {
 
   constructor(public http: HttpClient, ) { }
 
-  // apiUrl = 'https://jsonplaceholder.typicode.com';
-
- /* getUsers() {
-    return this.http.get('https://jsonplaceholder.typicode.com/users');
-  }
-
-  //POST
-  addUser() {
-    let postdata = new FormData();
-    postdata.append('key','value');
-    return this.http.post('https://jsonplaceholder.typicode.com/users',postdata);
-  }*/
+  
 
   userLogin(email: String) {
       console.log('Servicio: userLogin , parametro: ' + email);
@@ -38,10 +27,19 @@ export class RestService {
                                 'content-type': 'application/json' }
                             }
       );
-    }
+  }
 
 
-  scooterGetInfo(id: String) {
+  scooterGetInfo(id: number) {
+    const data = id;
+    console.log('Servicio: scooterGetInfo , parametro: ' + id);
+    /*return this.http.post('http://23.20.14.36:8080/rest-api/api/scooter/'
+                            , data, {
+                              headers: {
+                                'content-type': 'application/json' }
+                            }
+      );*/
+      return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/' + id + '');                         
 
   }
 

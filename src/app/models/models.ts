@@ -1,9 +1,17 @@
 export const enViaje = false;
 export const monedero = null;
 
+/*Variables dentro de Storage:
+1 - me (DTuser actual en la sesion)
+2 - tmpscooter (DTscooter del Qr scaneado)
 
+*/
 export interface DTscooter {
-
+  id: number;
+  numeroserial: string;
+  encendido: boolean;
+  enuso: boolean;
+  eliminado: boolean;
 }
 
 export interface DTnewuser {
@@ -26,4 +34,3 @@ export interface DTfactura {
 interface DTviaje {
 
 }
-

@@ -5,7 +5,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as models from '../models/models';
 import { Storage } from '@ionic/storage';
-import { store } from '@angular/core/src/render3';
+import { store, restoreView } from '@angular/core/src/render3';
 
 
 
@@ -25,13 +25,16 @@ export class Tab2Page implements OnInit,  AfterViewInit {
   lng = -56.144963;
   milat = 0;
   milng = 0;
+  scooterinfo : models.DTscooter;
 
   constructor(public barcodeScanner: BarcodeScanner,
               public rest: RestService,
               public geo: Geolocation,
               public storage: Storage) {
 
+
   }
+
 
   ngOnInit() {
       // TODO:Pedir por rest las coordenadas de los scooters
@@ -49,22 +52,34 @@ export class Tab2Page implements OnInit,  AfterViewInit {
     const div = document.getElementById('divInfo');
     div.style.display = 'none';
   }
-   onClick() {
+
+   abrirQR() {
       console.log('Abriendo QR cam');
       this.barcodeScanner.scan().then(barcodeData => {
-        console.log('Barcode data', barcodeData);
-        this.rest.scooterGetInfo(barcodeData.text);
-        const div = document.getElementById('divInfo');
-        div.style.display = '';
-        // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
+          console.log('Barcode data', barcodeData);
+          this.rest.scooterGetInfo(2).subscribe(
+            data=>{
+              let scooter_scan = data as models.DTscooter;
+              console.log("Serial number: "+scooter_scan.numeroserial);
+              this.storage.set('tmpscooter',scooter_scan);
+              this.scooterinfo = scooter_scan;
+              
+            },err=>{
+              console.error("No se pudo obtener datos del QR" ,err);
 
-      }).catch(err => {
-        const div = document.getElementById('divInfo');
-        div.style.display = '';
+          });
+          const div = document.getElementById('divInfo');
+          div.style.display = '';
+          // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
+          
 
-        console.log('Error', err);
-        console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
-      });
+        }).catch(err => {
+          const div = document.getElementById('divInfo');
+          div.style.display = '';
+          
+          console.log('Error', err);
+          console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
+        });
     }
 
 

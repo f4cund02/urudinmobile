@@ -9,17 +9,20 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      <ion-card>
+      <ion-card style="width: 100%" >
         <ion-card-header>
           <ion-card-subtitle>Usuario urudin</ion-card-subtitle>
-          <ion-card-title></ion-card-title>
+          <ion-card-title id="divuser">{{userme.email}}</ion-card-title>
         </ion-card-header>
       </ion-card>
     </ion-item>
       <ion-item>
-          <ion-label >            
-              Dinero en el monedero: poner *ngif que si tengo menos de x , me ponga un mensaje
-          </ion-label>    
+        <ion-card style="width: 100%" >
+          <ion-card-header>
+            <ion-card-subtitle>Dinero acreditado:</ion-card-subtitle>
+            <ion-card-title >{{userme.saldo}}</ion-card-title>
+          </ion-card-header>
+        </ion-card> 
       </ion-item>
       <ion-item>
         <ion-button (click)="redirect1()">
@@ -37,7 +40,7 @@
         </ion-button>      
       </ion-item>
       <ion-item>
-          <ion-button color="danger" i->
+          <ion-button (click)="exit()" color="danger" i->
             Salir
           </ion-button>      
         </ion-item>
