@@ -9,7 +9,7 @@ export class RestService {
 
   constructor(public http: HttpClient, ) { }
 
-  
+
 
   userLogin(email: String) {
       console.log('Servicio: userLogin , parametro: ' + email);
@@ -39,7 +39,7 @@ export class RestService {
                                 'content-type': 'application/json' }
                             }
       );*/
-      return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/' + id + '');                         
+    return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/' + id + '');
 
   }
 

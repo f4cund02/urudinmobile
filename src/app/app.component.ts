@@ -43,7 +43,7 @@ export class AppComponent {
         if (this.contador === 20) {
           console.log('AVISO: Reportando bateria con 20 porciento');
         } else if (this.contador === 10) {
-          console.log('AVISO: Reportando bateria con 20 porciento');
+          console.log('AVISO: Reportando bateria con 10 porciento');
         }
     }.bind(this), 2000);
 }

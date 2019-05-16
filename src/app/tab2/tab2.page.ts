@@ -6,6 +6,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as models from '../models/models';
 import { Storage } from '@ionic/storage';
 import { store, restoreView } from '@angular/core/src/render3';
+import { DTuser } from '../models/models';
 
 
 
@@ -25,7 +26,8 @@ export class Tab2Page implements OnInit,  AfterViewInit {
   lng = -56.144963;
   milat = 0;
   milng = 0;
-  scooterinfo : models.DTscooter;
+  scooterinfo: models.DTscooter;
+  saldo: number;
 
   constructor(public barcodeScanner: BarcodeScanner,
               public rest: RestService,
@@ -37,14 +39,23 @@ export class Tab2Page implements OnInit,  AfterViewInit {
 
 
   ngOnInit() {
+
+    this.buildmap();
+
+    
       // TODO:Pedir por rest las coordenadas de los scooters
-      const aux = this.storage.get('me');
-      console.log(aux);
-      this.buildmap();
+      this.storage.get('me').then(data => {
+          const aux = data as DTuser;
+          this.saldo = aux.saldo;
+      }, err => {
+          console.error('Error al recuperar el saldo de tu monedero', err);
+
+      });
 
   }
 
   ngAfterViewInit() {
+      
 
   }
 
@@ -58,25 +69,22 @@ export class Tab2Page implements OnInit,  AfterViewInit {
       this.barcodeScanner.scan().then(barcodeData => {
           console.log('Barcode data', barcodeData);
           this.rest.scooterGetInfo(2).subscribe(
-            data=>{
-              let scooter_scan = data as models.DTscooter;
-              console.log("Serial number: "+scooter_scan.numeroserial);
-              this.storage.set('tmpscooter',scooter_scan);
+            data => {
+              const scooter_scan = data as models.DTscooter;
+              console.log('Serial number: ' + scooter_scan.numeroserial);
+              this.storage.set('tmpscooter', scooter_scan);
               this.scooterinfo = scooter_scan;
-              
-            },err=>{
-              console.error("No se pudo obtener datos del QR" ,err);
+
+            }, err => {
+              console.error('No se pudo obtener datos del QR' , err);
 
           });
           const div = document.getElementById('divInfo');
           div.style.display = '';
           // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
-          
+
 
         }).catch(err => {
-          const div = document.getElementById('divInfo');
-          div.style.display = '';
-          
           console.log('Error', err);
           console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
         });
