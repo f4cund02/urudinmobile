@@ -1,13 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as models from '../models/models';
-import { DTnewuser } from '../models/models';
+import { DTnewuser, DTinfoScooter, DTfeature, DTGeometry, DTProperties } from '../models/models';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
 
-  constructor(public http: HttpClient, ) { }
+    
+ milat:string;
+ milng:string;
+
+
+  constructor(public http: HttpClient, 
+              public geo: Geolocation) { 
+
+  }
 
 
 
@@ -33,14 +43,34 @@ export class RestService {
   scooterGetInfo(id: number) {
     const data = id;
     console.log('Servicio: scooterGetInfo , parametro: ' + id);
-    /*return this.http.post('http://23.20.14.36:8080/rest-api/api/scooter/'
+    return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/' + id + '');
+
+  }
+
+  getGeojson(){
+
+    this.geo.getCurrentPosition().then((resp) => {
+      // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
+       this.milat = resp.coords.latitude.toString();
+       this.milng = resp.coords.longitude.toString();
+
+        
+    }).catch((error) => {
+          console.log('Error getting location', error);
+        });
+
+
+        //FIXME: milat y milng no las puedo cargar porque son promesas ....
+    var data = {
+      "latitud": "-34.9181148",
+      "longitud" : "-56.1665118"
+    };
+    return this.http.post('http://23.20.14.36:8080/rest-api/api/scooterhistorico/cercanos'
                             , data, {
                               headers: {
                                 'content-type': 'application/json' }
                             }
-      );*/
-    return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/' + id + '');
-
+      );
   }
 
   monederoAcreditar() {
@@ -75,6 +105,5 @@ export class RestService {
 
   }
 
-
-
+  
 }

@@ -1,6 +1,9 @@
+
 export const enViaje = false;
 export const monedero = null;
-interface DTinfoScooter {
+
+export interface DTinfoScooter {
+  [x: string]: any;
   id: number;
   fecha: number;
   latitud: string;
@@ -8,6 +11,23 @@ interface DTinfoScooter {
   bateria: number;
   scooter: DTscooter;
 }
+export interface DTfeature {
+  type: string;
+  geometry: DTGeometry;
+  properties: DTProperties;
+}
+
+export interface DTProperties {
+  title: string;
+  icon: string;
+}
+
+export interface DTGeometry {
+  type: string;
+  coordinates: number[];
+}
+
+
 /*Variables dentro de Storage:
 1 - me (DTuser actual en la sesion)
 2 - tmpscooter (DTscooter del Qr scaneado)
