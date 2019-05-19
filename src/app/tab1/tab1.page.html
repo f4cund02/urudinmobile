@@ -14,6 +14,10 @@
           <ion-card-subtitle>Usuario urudin</ion-card-subtitle>
           <ion-card-title *ngIf="userme" id="divuser">{{userme.email}}</ion-card-title>
         </ion-card-header>
+        <ion-card-header>
+          <ion-card-subtitle>Nombre y Apellido</ion-card-subtitle>
+          <ion-card-title *ngIf="userme" id="divuser">{{userme.nombre}} {{userme.apellido}}</ion-card-title>
+        </ion-card-header>
       </ion-card>
     </ion-item>
       <ion-item>

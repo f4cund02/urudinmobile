@@ -38,6 +38,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
     this.obtenersaldoMonedero();
     
   }
+ 
   obtenersaldoMonedero() {
     this.storage.get('me').then(data => {
       const aux = data as DTuser;
@@ -46,7 +47,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
       console.error('Error al recuperar el saldo de tu monedero', err);
 
        }); 
- }
+  }
 
   ngAfterViewInit() {
 
@@ -57,7 +58,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
     div.style.display = 'none';
   }
 
-   abrirQR() {
+  abrirQR() {
       console.log('Abriendo QR cam');
       this.barcodeScanner.scan().then(barcodeData => {
           console.log('Barcode data', barcodeData);
@@ -82,7 +83,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
           console.log('Error', err);
           console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
         });
-    }
+  }
 
 
   
@@ -100,7 +101,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
 
     //llamo funcion getGeojson
      this.rest.getGeojson().subscribe(
-        data=>{
+        data=> {
         var datos = <DTinfoScooter[]>data ;
 
         for(let i=0; i<datos.length;i++){
@@ -177,4 +178,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
       
   }
 
+  iniciarViaje(){
+    
+  }
 }
