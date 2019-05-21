@@ -36,8 +36,6 @@ export class LoginPage implements OnInit {
       
       });
 
-    // TODO: enviar x rest el form.value y me debe devolver true o false en caso de que exista el usuario
-    // this.navctrl.navigateForward('/tabs/tab2');
 
   }
 

@@ -65,7 +65,6 @@ export class Tab2Page implements OnInit,  AfterViewInit {
           console.log('Barcode data', barcodeData);
           console.log(barcodeData.text);
           
-          // FIXME: CAMBIAR EL 2 POPR EL ID RESCUPERADO DEL QR
           this.rest.scooterGetInfo(+barcodeData.text).subscribe(
             data => {
               const scooter_scan = data as models.DTscooter;
@@ -141,39 +140,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
           });
 
 
-    map.on('load', function() {
-
-      map.addLayer({
-      id: 'points',
-      type: 'symbol',
-      source: {
-      type: 'geojson',
-      data: {
-      type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              geometry: {
-              type: 'Point',
-              coordinates: [-77.03238901390978, 38.913188059745586]
-              },
-              properties: {
-              title: '1',
-              icon: 'marker'
-              }
-            }
-      ]
-      }
-      },
-      layout: {
-      'icon-image': '{icon}-15',
-      'text-field': 'Scooter',
-      'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-      'text-offset': [0, 0.6],
-      'text-anchor': 'top'
-      }
-      });
-      });
+    
 
 
 
@@ -182,6 +149,6 @@ export class Tab2Page implements OnInit,  AfterViewInit {
   }
 
   iniciarViaje() {
-    
+    alert("iniciando viaje");
   }
 }

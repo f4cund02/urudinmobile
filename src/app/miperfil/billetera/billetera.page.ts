@@ -42,7 +42,7 @@ export class BilleteraPage implements OnInit {
   cargarmonto() {
     console.log(this.monto);
     
-    const payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
+    /*const payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
     this.paypal.renderSinglePaymentUI(payment).then(() => {
           // Successfully paid
           alert('Todo ok!');
@@ -65,7 +65,7 @@ export class BilleteraPage implements OnInit {
           // }
         }, () => {
           // Error or render dialog closed without being successful
-        });
+        });*/
   }
 
 }

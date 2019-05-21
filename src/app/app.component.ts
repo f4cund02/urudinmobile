@@ -19,6 +19,7 @@ export class AppComponent {
   ) {
     this.initializeApp();
     this.startBat();
+    
   }
 
   initializeApp() {
@@ -32,7 +33,7 @@ export class AppComponent {
     let interval = setInterval(function() {
         this.contador--;
         if (models.enViaje) {
-          // TODO:ENVIAR LOCALZIACION A SERVIDOR
+          //TODO:ENVIAR LOCALZIACION A SERVIDOR
           //TODO: ENVIAR TAMBIEN LA BATERIA
           this.geo.getCurrentPosition().then((resp) => {
             // const coords = resp.coords.latitude + ',' + resp.coords.longitude;

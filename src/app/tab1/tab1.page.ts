@@ -17,7 +17,6 @@ export class Tab1Page implements OnInit {
                  public rest:RestService,
                     public storage:Storage){
     
-   //FIXME: levanta bien el nombre en el html pero da error porque es promesa y al principio no la encuentra
   this.storage.get('me')
     .then(value => {
         let user = value as DTuser;
