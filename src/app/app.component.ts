@@ -11,6 +11,7 @@ import * as models from './models/models';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
+  
   public contador = 100;
   constructor(
     private platform: Platform,

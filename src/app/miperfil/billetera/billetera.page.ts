@@ -41,31 +41,7 @@ export class BilleteraPage implements OnInit {
 
   cargarmonto() {
     console.log(this.monto);
-    
-    /*const payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
-    this.paypal.renderSinglePaymentUI(payment).then(() => {
-          // Successfully paid
-          alert('Todo ok!');
-          // Example sandbox response
-          //
-          // {
-          //   "client": {
-          //     "environment": "sandbox",
-          //     "product_name": "PayPal iOS SDK",
-          //     "paypal_sdk_version": "2.16.0",
-          //     "platform": "iOS"
-          //   },
-          //   "response_type": "payment",
-          //   "response": {
-          //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-          //     "state": "approved",
-          //     "create_time": "2016-10-03T13:33:33Z",
-          //     "intent": "sale"
-          //   }
-          // }
-        }, () => {
-          // Error or render dialog closed without being successful
-        });*/
+  
   }
 
 }

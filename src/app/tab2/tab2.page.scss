@@ -1,8 +1,12 @@
 
+.noscroll{
+    overflow: hidden;
+}
+
 #mapid{
     position: absolute;
-    width: 100% !important;
-    height: 100% !important;
+    width: 100%;
+    height: 100%;
     background-color: #f6f6f6;
 }
 

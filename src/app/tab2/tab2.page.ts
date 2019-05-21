@@ -5,8 +5,9 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as models from '../models/models';
 import { Storage } from '@ionic/storage';
-import { store, restoreView } from '@angular/core/src/render3';
 import { DTuser, DTinfoScooter } from '../models/models';
+import { NavController } from '@ionic/angular';
+
 
 
 @Component({
@@ -26,7 +27,9 @@ export class Tab2Page implements OnInit,  AfterViewInit {
   constructor(public barcodeScanner: BarcodeScanner,
               public rest: RestService,
               public geo: Geolocation,
-              public storage: Storage) {
+              public storage: Storage,
+              public navctrl: NavController
+              ) {
 
 
   }
@@ -60,11 +63,13 @@ export class Tab2Page implements OnInit,  AfterViewInit {
   }
 
   abrirQR() {
+      this.iniciarViaje();
+      /*lo de arriba es para probar  */
       console.log('Abriendo QR cam');
       this.barcodeScanner.scan().then(barcodeData => {
           console.log('Barcode data', barcodeData);
           console.log(barcodeData.text);
-          
+
           this.rest.scooterGetInfo(+barcodeData.text).subscribe(
             data => {
               const scooter_scan = data as models.DTscooter;
@@ -97,6 +102,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
     center: [-56.16324 , -34.91035],
     zoom: 10
     });
+    
 
     map.addControl(new mapboxgl.NavigationControl());
 
@@ -140,15 +146,14 @@ export class Tab2Page implements OnInit,  AfterViewInit {
           });
 
 
-    
-
-
-
-
-
   }
 
   iniciarViaje() {
-    alert("iniciando viaje");
+    alert('iniciando viaje');
   }
+
+
+
+
+  
 }
