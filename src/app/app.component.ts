@@ -33,18 +33,20 @@ export class AppComponent {
         this.contador--;
         if (models.enViaje) {
           // TODO:ENVIAR LOCALZIACION A SERVIDOR
+          //TODO: ENVIAR TAMBIEN LA BATERIA
           this.geo.getCurrentPosition().then((resp) => {
             // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
             // this.restService.enviarLocalizacion(coords);
           }).catch((error) => {
-                console.log('Error getting location', error);
+                console.log('Error sending location', error);
           });
         }
         if (this.contador === 20) {
           console.log('AVISO: Reportando bateria con 20 porciento');
         } else if (this.contador === 10) {
+          alert("El scooter tiene 10% restante de bateria");
           console.log('AVISO: Reportando bateria con 10 porciento');
         }
-    }.bind(this), 2000);
+    }.bind(this), 4000);
 }
 }

@@ -36,17 +36,18 @@ export class Tab2Page implements OnInit,  AfterViewInit {
 
     this.buildmap();
     this.obtenersaldoMonedero();
-    
+
   }
- 
+
   obtenersaldoMonedero() {
     this.storage.get('me').then(data => {
       const aux = data as DTuser;
       this.saldo = aux.saldo;
+
       }, err => {
       console.error('Error al recuperar el saldo de tu monedero', err);
 
-       }); 
+       });
   }
 
   ngAfterViewInit() {
@@ -62,8 +63,10 @@ export class Tab2Page implements OnInit,  AfterViewInit {
       console.log('Abriendo QR cam');
       this.barcodeScanner.scan().then(barcodeData => {
           console.log('Barcode data', barcodeData);
-          //FIXME: CAMBIAR EL 2 POPR EL ID RESCUPERADO DEL QR
-          this.rest.scooterGetInfo(2).subscribe(
+          console.log(barcodeData.text);
+          
+          // FIXME: CAMBIAR EL 2 POPR EL ID RESCUPERADO DEL QR
+          this.rest.scooterGetInfo(+barcodeData.text).subscribe(
             data => {
               const scooter_scan = data as models.DTscooter;
               console.log('Serial number: ' + scooter_scan.numeroserial);
@@ -86,7 +89,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
   }
 
 
-  
+
   buildmap() {
     mapboxgl.accessToken = 'pk.eyJ1IjoiZjRjdW5kMDIiLCJhIjoiY2p2aGNmemMyMDBxbzRhbzNxb3pydWV0eCJ9.wV6Ce8jWiMkdtUF-jKM8Kg';
     const map = new mapboxgl.Map({
@@ -99,40 +102,40 @@ export class Tab2Page implements OnInit,  AfterViewInit {
     map.addControl(new mapboxgl.NavigationControl());
 
 
-    //llamo funcion getGeojson
-     this.rest.getGeojson().subscribe(
-        data=> {
-        var datos = <DTinfoScooter[]>data ;
+    // llamo funcion getGeojson
+    this.rest.getGeojson().subscribe(
+        data => {
+        const datos = data as DTinfoScooter[] ;
 
-        for(let i=0; i<datos.length;i++){
-            
+        for (let i = 0; i < datos.length; i++) {
+
             new mapboxgl.Marker()
             .setLngLat([ +datos[i].longitud,
                        +datos[i].latitud ])
             .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML('<p>Scooter n°: ' +datos[i].id+'</p> <p>Bateria : '+datos[i].bateria+'</p>'))
+            .setHTML('<p>Scooter n°: ' + datos[i].id + '</p> <p>Bateria : ' + datos[i].bateria + '</p>'))
               .addTo(map);
-            
+
           }
-            
-          
-        },err=>{
-            console.error("Hubo un error al recuperar los scooters cercanos , ",err);
-            
+
+
+        }, err => {
+            console.error('Hubo un error al recuperar los scooters cercanos , ', err);
+
         }
-      )
-    
+      );
+
     // MI UBICACION//
     this.geo.getCurrentPosition().then((resp) => {
         // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
          this.milat = resp.coords.latitude;
          this.milng = resp.coords.longitude;
             // this.restService.enviarLocalizacion(coords);
-        new mapboxgl.Marker()
+         new mapboxgl.Marker()
         .setLngLat([ this.milng, this.milat ])
         .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
         .setHTML('<h6> YO </h6>'))
-        .addTo(map);   
+        .addTo(map);
       }).catch((error) => {
             console.log('Error getting location', error);
           });
@@ -171,14 +174,14 @@ export class Tab2Page implements OnInit,  AfterViewInit {
       }
       });
       });
-      
 
 
-     
-      
+
+
+
   }
 
-  iniciarViaje(){
+  iniciarViaje() {
     
   }
 }

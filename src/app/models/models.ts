@@ -1,5 +1,5 @@
 
-export const enViaje = false;
+export var enViaje = false;
 export const monedero = null;
 
 export interface DTinfoScooter {

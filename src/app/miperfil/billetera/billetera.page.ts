@@ -11,17 +11,17 @@ import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal
   styleUrls: ['./billetera.page.scss'],
 })
 export class BilleteraPage implements OnInit {
-
+  monto : number;
   userme: DTuser;
 
-  constructor(public storage:Storage,
-              public paypal: PayPal) { 
+  constructor(public storage: Storage,
+              public paypal: PayPal) {
     this.storage.get('me')
     .then(value => {
-        let user = value as DTuser;
+        const user = value as DTuser;
         this.userme = user;
-    }).catch(err=>{
-      console.error("No se pudo obtener usuario logueado", err);
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
     });
 
   }
@@ -29,32 +29,23 @@ export class BilleteraPage implements OnInit {
   ngOnInit() {
   }
 
-  activardiv(){
-     let div = document.getElementById("divoculto");
-     div.style.display='';
+  activardiv() {
+     const div = document.getElementById('divoculto');
+     div.style.display = '';
   }
 
-  cancelar(){
-    let div = document.getElementById("divoculto");
-     div.style.display='none';
+  cancelar() {
+    const div = document.getElementById('divoculto');
+    div.style.display = 'none';
   }
 
-  cargarmonto(){
-    let div = document.getElementById("monto");
-    console.log(div);
-    this.paypal.init({
-      PayPalEnvironmentProduction: '',
-      PayPalEnvironmentSandbox: 'AdhUpwbdu1ghI_4Csq34nLAWA1GRBuGJb4VI2-qXMdLShbSS-ZuoT7OdFkvPMP7eBh-8rOGK8Iih7HO9'
-    }).then(() => {
-      // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
-      this.paypal.prepareToRender('AdhUpwbdu1ghI_4Csq34nLAWA1GRBuGJb4VI2-qXMdLShbSS-ZuoT7OdFkvPMP7eBh-8rOGK8Iih7HO9', new PayPalConfiguration({
-        // Only needed if you get an "Internal Service Error" after PayPal login!
-        //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
-      })).then(() => {
-        let payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
-        this.paypal.renderSinglePaymentUI(payment).then(() => {
+  cargarmonto() {
+    console.log(this.monto);
+    
+    const payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
+    this.paypal.renderSinglePaymentUI(payment).then(() => {
           // Successfully paid
-    alert('Todo ok!');
+          alert('Todo ok!');
           // Example sandbox response
           //
           // {
@@ -75,12 +66,6 @@ export class BilleteraPage implements OnInit {
         }, () => {
           // Error or render dialog closed without being successful
         });
-      }, () => {
-        // Error in configuration
-      });
-    }, () => {
-      // Error in initialization, maybe PayPal isn't supported or something else
-    });
   }
 
 }

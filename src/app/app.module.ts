@@ -17,12 +17,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
- 
+import {EnviajeComponent} from '../app/enviaje/enviaje.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, EnviajeComponent],
   entryComponents: [],
-  imports: [BrowserModule, HttpClientModule,IonicModule.forRoot(),IonicStorageModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(), IonicStorageModule.forRoot(), AppRoutingModule],
   providers: [
     NavController,
     Geolocation,

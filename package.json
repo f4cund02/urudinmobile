@@ -28,8 +28,16 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^4.4.0",
     "@ionic/storage": "^2.2.0",
+    "card.io.cordova.mobilesdk": "^2.1.0",
     "com.paypal.cordova.mobilesdk": "3.5.0",
+    "cordova-android": "7.1.4",
+    "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "4.0.1",
+    "cordova-plugin-ionic-keyboard": "^2.1.3",
+    "cordova-plugin-ionic-webview": "^4.0.1",
+    "cordova-plugin-splashscreen": "^5.0.2",
+    "cordova-plugin-statusbar": "^2.4.2",
+    "cordova-plugin-whitelist": "^1.3.3",
     "cordova-sqlite-storage": "3.2.0",
     "core-js": "^2.5.4",
     "mapbox-gl": "^0.54.0",
@@ -71,7 +79,18 @@
       "phonegap-plugin-barcodescanner": {},
       "cordova-plugin-geolocation": {},
       "cordova-sqlite-storage": {},
-      "com.paypal.cordova.mobilesdk": {}
-    }
+      "com.paypal.cordova.mobilesdk": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-ionic-webview": {
+        "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+      },
+      "cordova-plugin-ionic-keyboard": {}
+    },
+    "platforms": [
+      "android"
+    ]
   }
 }
