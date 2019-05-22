@@ -2,6 +2,34 @@
 export var enViaje = false;
 export const monedero = null;
 
+
+export interface DTinformarScooter{
+  latitud: string;
+  longitud: string;
+  bateria: number;
+  scooterid: number;
+}
+
+ export interface DTpaypalResp {
+  client: DTClient;
+  response_type: string;
+  response: DTResponse;
+}
+
+export interface DTResponse {
+  id: string;
+  state: string;
+  create_time: string;
+  intent: string;
+}
+
+export interface DTClient {
+  environment: string;
+  product_name: string;
+  paypal_sdk_version: string;
+  platform: string;
+} 
+
 export interface DTinfoScooter {
   [x: string]: any;
   id: number;

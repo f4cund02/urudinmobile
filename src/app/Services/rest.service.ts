@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as models from '../models/models';
-import { DTnewuser, DTinfoScooter, DTfeature, DTGeometry, DTProperties } from '../models/models';
+import { DTnewuser, DTinfoScooter, DTfeature, DTGeometry, DTProperties, DTinformarScooter } from '../models/models';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Injectable({
@@ -103,6 +103,17 @@ export class RestService {
 
   notificacionesGet(DTuser) {
 
+  }
+
+  informarDatos(param: DTinformarScooter){
+    const data = JSON.stringify(param);
+    console.log('Servicio: informarDatos , parametro: ' + JSON.stringify(param));
+    return this.http.post('http:/urudin.tk:8080/rest-api/api/scooterhistorico/registro'
+                            , data, {
+                              headers: {
+                                'content-type': 'application/json' }
+                            }
+      );
   }
 
   

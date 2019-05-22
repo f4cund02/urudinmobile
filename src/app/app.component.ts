@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import * as models from './models/models';
+import { RestService } from './Services/rest.service';
 
 
 @Component({
@@ -11,16 +12,17 @@ import * as models from './models/models';
   templateUrl: 'app.component.html'
 })
 export class AppComponent {
-  
+
   public contador = 100;
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    public rest: RestService
   ) {
     this.initializeApp();
     this.startBat();
-    
+
   }
 
   initializeApp() {
@@ -31,22 +33,24 @@ export class AppComponent {
   }
 
   startBat() {
-    let interval = setInterval(function() {
-        this.contador--;
-        if (models.enViaje) {
-          //TODO:ENVIAR LOCALZIACION A SERVIDOR
-          //TODO: ENVIAR TAMBIEN LA BATERIA
-          this.geo.getCurrentPosition().then((resp) => {
-            // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
+    const interval = setInterval(function() {
+        this.contador = this.contador - 0.1;
+
+          // TODO:ENVIAR LOCALZIACION A SERVIDOR
+          // TODO: ENVIAR TAMBIEN LA BATERIA
+
+        this.geo.getCurrentPosition().then((resp) => {
+            
+            // const coords = resp.coords.latitude  + ',' + resp.coords.longitude;
             // this.restService.enviarLocalizacion(coords);
-          }).catch((error) => {
-                console.log('Error sending location', error);
-          });
-        }
+        }).catch((error) => {
+              console.log('Error sending location', error);
+        });
+
         if (this.contador === 20) {
           console.log('AVISO: Reportando bateria con 20 porciento');
         } else if (this.contador === 10) {
-          alert("El scooter tiene 10% restante de bateria");
+          alert('El scooter tiene 10% restante de bateria');
           console.log('AVISO: Reportando bateria con 10 porciento');
         }
     }.bind(this), 4000);
