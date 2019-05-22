@@ -3,6 +3,7 @@ import { DTuser } from 'src/app/models/models';
 import { Storage } from '@ionic/storage';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal/ngx';
 import { DTpaypalResp, DTClient, DTResponse } from '../../models/models';
+import { RestService } from '../../Services/rest.service';
 
 
 
@@ -17,7 +18,8 @@ export class BilleteraPage implements OnInit {
   userme: DTuser;
 
   constructor(public storage: Storage,
-              public payPal: PayPal) {
+              public payPal: PayPal,
+              public rest: RestService) {
     this.storage.get('me')
     .then(value => {
         const user = value as DTuser;
@@ -42,9 +44,8 @@ export class BilleteraPage implements OnInit {
   }
 
   cargarmonto() {
-   console.log(this.monto);
 
-   console.log('Pay ????');
+   console.log('Pay');
    this.payPal.init({
       PayPalEnvironmentProduction: 'YOUR_PRODUCTION_CLIENT_ID',
       PayPalEnvironmentSandbox: 'AdhUpwbdu1ghI_4Csq34nLAWA1GRBuGJb4VI2-qXMdLShbSS-ZuoT7OdFkvPMP7eBh-8rOGK8Iih7HO9'
@@ -54,7 +55,8 @@ export class BilleteraPage implements OnInit {
         // Only needed if you get an "Internal Service Error" after PayPal login!
         // payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
       })).then(() => {
-        const payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
+        console.log("Creando paymento con ["+this.monto.toString()+"][USD]");
+        const payment = new PayPalPayment(this.monto.toString(), 'USD', 'Description', 'sale');
         this.payPal.renderSinglePaymentUI(payment).then((res) => {
           console.log(res);
           var response = res as DTpaypalResp
@@ -62,27 +64,20 @@ export class BilleteraPage implements OnInit {
                           " id: "+response.response.id+
                           " time create: " + response.response.create_time);
 
+          //actualizo saldo del usuario actual
+          this.storage.get('me').then(
+            data=>{
+                  var useraux =  data as DTuser;
+                  useraux.saldo += this.monto;
+                  console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
+          },err=>{
+              console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
+              
+          });
+
+          this.rest.monederoAcreditar(this.userme.id,response.response.id,this.monto);
           //TODO: ENVIAR INFORMACION DE PAGO AL SERVIDOR , AGREGAR LO ACREDITADO AL MONEDERO                 
 
-          // Successfully paid
-
-          // Example sandbox response
-          //
-          // {
-          //   "client": {
-          //     "environment": "sandbox",
-          //     "product_name": "PayPal iOS SDK",
-          //     "paypal_sdk_version": "2.16.0",
-          //     "platform": "iOS"
-          //   },
-          //   "response_type": "payment",
-          //   "response": {
-          //     "id": "PAY-1AB23456CD789012EF34GHIJ",
-          //     "state": "approved",
-          //     "create_time": "2016-10-03T13:33:33Z",
-          //     "intent": "sale"
-          //   }
-          // }
         }, () => {
           console.error("[PAYPAL RENDER]:  Error or render dialog closed without being successful ");
         });

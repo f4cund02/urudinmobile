@@ -73,8 +73,9 @@ export class RestService {
       );
   }
 
-  monederoAcreditar() {
-
+  monederoAcreditar(iduser:number ,idpago:string,monto:number) {
+    console.log("[servicio monederoAcreditar]: parametros -> "+iduser+" "+idpago+" "+monto);
+    alert("falta implementar servicio");
   }
 
   scootersGet(lat: String, lng: String) {
@@ -108,7 +109,7 @@ export class RestService {
   informarDatos(param: DTinformarScooter){
     const data = JSON.stringify(param);
     console.log('Servicio: informarDatos , parametro: ' + JSON.stringify(param));
-    return this.http.post('http:/urudin.tk:8080/rest-api/api/scooterhistorico/registro'
+    return this.http.post('http://urudin.tk:8080/rest-api/api/scooterhistorico/registro'
                             , data, {
                               headers: {
                                 'content-type': 'application/json' }

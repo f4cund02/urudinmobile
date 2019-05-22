@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import * as models from './models/models';
 import { RestService } from './Services/rest.service';
+import { DTinformarScooter } from './models/models';
 
 
 @Component({
@@ -16,14 +16,33 @@ export class AppComponent {
   public contador = 100;
   constructor(
     private platform: Platform,
+    public geo: Geolocation,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public rest: RestService
   ) {
     this.initializeApp();
     this.startBat();
+    const interval2 = setInterval(function() {
+      console.log('[app.component.ts] informando al servidor bateria , coords y scooterid');
+      this.geo.getCurrentPosition().then((resp) => {
+            let info: DTinformarScooter;
+            info.bateria = this.contador; //FIXME: bateria undefined
+            info.scooterid = 1; // TODO: cual seria el id de scooter
+            info.latitud =  resp.coords.latitude.toString();
+            info.longitud =  resp.coords.longitude.toString();
+            this.rest.informarDatos(info).subscribe(
+              data => {
+                  console.log('[app.component.ts] data: ', data);
+              }, err => {
+                console.error('[app.component.ts] error al obtener respuesta', err);
 
-  }
+              });
+           }).catch((error) => {
+                console.log('Error sending location', error);
+          });
+    }.bind(this), 4000);
+    }
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -39,13 +58,6 @@ export class AppComponent {
           // TODO:ENVIAR LOCALZIACION A SERVIDOR
           // TODO: ENVIAR TAMBIEN LA BATERIA
 
-        this.geo.getCurrentPosition().then((resp) => {
-            
-            // const coords = resp.coords.latitude  + ',' + resp.coords.longitude;
-            // this.restService.enviarLocalizacion(coords);
-        }).catch((error) => {
-              console.log('Error sending location', error);
-        });
 
         if (this.contador === 20) {
           console.log('AVISO: Reportando bateria con 20 porciento');

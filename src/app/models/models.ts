@@ -1,7 +1,7 @@
 
 export var enViaje = false;
 export const monedero = null;
-
+export var bat = 100;
 
 export interface DTinformarScooter{
   latitud: string;
