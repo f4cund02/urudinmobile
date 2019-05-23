@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { RestService } from '../../Services/rest.service';
-import { NavController } from '@ionic/angular';
-import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import * as models from '../../models/models';
-import { Storage } from '@ionic/storage';
-
-
+import { DTUser } from '../../models/user/dtuser';
+import { AuthService } from 'src/app/Services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,29 +9,17 @@ import { Storage } from '@ionic/storage';
 })
 export class LoginPage implements OnInit {
 
-  constructor(public rest: RestService,
-              private navctrl: NavController,
-                private storage : Storage) { }
+  user: DTUser = new DTUser();
+
+  constructor(
+    private auth : AuthService
+  ) { }
 
   ngOnInit() {
   }
 
-  public logueo(form) {
-    let aux = Object.values(form.value);
-    console.log(aux[0]);
-    this.rest.userLogin(aux[0].toString())
-      .subscribe(data => {
-          var usuario = <models.DTuser>data;
-          console.log('usuario logueado : '+usuario);
-          this.storage.set('me',usuario);
-          this.navctrl.navigateForward('/tabs/tab2');
-      },err => {
-        alert("Error al iniciar sesion , ingrese un usuario ya registrado");
-        
-      
-      });
-
-
+  login() {
+    this.auth.login(this.user);
   }
 
 }

@@ -5,6 +5,9 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { RestService } from './Services/rest.service';
 import { DTinformarScooter } from './models/models';
+import { AuthService } from './Services/auth/auth.service';
+import { Router } from '@angular/router';
+import { DTInformarScooter } from './models/InformarScooter/dtinformar-scooter';
 
 
 @Component({
@@ -19,13 +22,16 @@ export class AppComponent {
     public geo: Geolocation,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    public rest: RestService
+    public rest: RestService,
+    public auth: AuthService,
+    private router: Router
   ) {
-    this.initializeApp();
+    this.initializeApp();  
     this.startBat();
     const interval2 = setInterval(function() {
       //console.log('[app.component.ts] informando al servidor bateria , coords y scooterid');
       this.geo.getCurrentPosition().then((resp) => {
+<<<<<<< HEAD
             let info: DTinformarScooter;
             info = {
               bateria : this.contador,
@@ -34,6 +40,14 @@ export class AppComponent {
               longitud : resp.coords.longitude.toString()
             }
             
+=======
+            let info: DTinformarScooter = new DTInformarScooter();
+            info.bateria = this.contador; //FIXME: bateria undefined
+            console.log(this.contador);
+            info.scooterid = 1; // TODO: cual seria el id de scooter
+            info.latitud =  resp.coords.latitude.toString();
+            info.longitud =  resp.coords.longitude.toString();
+>>>>>>> f55b92be51bfbb835073e877ea4be8ba5c5122a7
             this.rest.informarDatos(info).subscribe(
               data => {
                  // console.log('[app.component.ts] data recibida por enviar localizacion y bateria : ', data);
@@ -51,6 +65,15 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      this.auth.authState.subscribe(state => {
+        if (state) {
+          this.router.navigate(['tabs/tab1']);
+        } else {
+          this.router.navigate(['login']);
+        }
+      });
+
     });
   }
 

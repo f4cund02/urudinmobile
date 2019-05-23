@@ -5,8 +5,9 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as models from '../models/models';
 import { Storage } from '@ionic/storage';
-import { DTuser, DTinfoScooter } from '../models/models';
+import { DTinfoScooter } from '../models/models';
 import { NavController } from '@ionic/angular';
+import { DTUser } from '../models/user/dtuser';
 
 
 
@@ -44,7 +45,7 @@ export class Tab2Page implements OnInit,  AfterViewInit {
 
   obtenersaldoMonedero() {
     this.storage.get('me').then(data => {
-      const aux = data as DTuser;
+      const aux = data as DTUser;
       this.saldo = aux.saldo;
 
       }, err => {

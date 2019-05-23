@@ -75,14 +75,6 @@ export interface DTnewuser {
   email: string;
 }
 
-export  interface DTuser {
-    id: number;
-    nombre: string;
-    apellido: string;
-    email: string;
-    saldo: number;
-}
-
 export interface DTfactura {
 
 }
