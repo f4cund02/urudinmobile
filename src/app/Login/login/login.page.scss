@@ -1,6 +1,10 @@
 ion-card-header{
     text-align: center;
 }
+ion-item{
+    --background:transparent;
+    border:none;
+}
 ion-input{
     border-bottom: 1px solid #3880ff;    
 }
