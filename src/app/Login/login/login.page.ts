@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    this.auth.login(this.user);
+    this.auth.login(this.user,1);
   }
 
 }

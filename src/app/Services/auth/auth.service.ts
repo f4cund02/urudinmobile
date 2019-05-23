@@ -34,7 +34,7 @@ export class AuthService {
     });
   }
 
-  login(user: DTUser) {
+  login(user: DTUser,type:Number) {
     this.http.get(this.endpoints.getClientEndpoint() + '/login?email=' + user.email + '').subscribe(
       result => {
         this.storage.set('me', result).then((response) => {
@@ -43,7 +43,13 @@ export class AuthService {
         });
       },
       error => {
-        this.presentToast();
+        let msg = "";
+        if(type==1){
+          msg = 'Error al iniciar sesion.\nIngrese un usuario ya registrado.'
+        }else{
+          msg = 'Error en el registro.\nIntente iniciar sesión de forma normal.'
+        }
+        this.presentToast(msg);
       }
     );
   }
@@ -59,9 +65,9 @@ export class AuthService {
     return this.authState.value;
   }
 
-  async presentToast() {
+  async presentToast(msg) {
     const toast = await this.toastController.create({
-      message: 'Error al iniciar sesion.\nIngrese un usuario ya registrado.',
+      message: msg,
       duration: 2000,
       color: 'danger'
     });
