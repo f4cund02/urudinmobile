@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DTuser } from 'src/app/models/models';
 import { Storage } from '@ionic/storage';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal/ngx';
 import { DTpaypalResp, DTClient, DTResponse } from '../../models/models';
 import { RestService } from '../../Services/rest.service';
+import { DTUser } from 'src/app/models/user/dtuser';
 
 
 
@@ -15,14 +15,14 @@ import { RestService } from '../../Services/rest.service';
 })
 export class BilleteraPage implements OnInit {
   monto: number;
-  userme: DTuser;
+  userme: DTUser;
 
   constructor(public storage: Storage,
               public payPal: PayPal,
               public rest: RestService) {
     this.storage.get('me')
     .then(value => {
-        const user = value as DTuser;
+        const user = value as DTUser;
         this.userme = user;
     }).catch(err => {
       console.error('No se pudo obtener usuario logueado', err);
@@ -67,7 +67,7 @@ export class BilleteraPage implements OnInit {
           //actualizo saldo del usuario actual
           this.storage.get('me').then(
             data=>{
-                  var useraux =  data as DTuser;
+                  var useraux =  data as DTUser;
                   useraux.saldo += this.monto;
                   console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
           },err=>{

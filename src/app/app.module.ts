@@ -17,6 +17,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
+import { Authguard } from './models/authguard/authguard';
+import { AuthService } from './Services/auth/auth.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,6 +31,8 @@ import { IonicStorageModule } from '@ionic/storage';
     PayPal,
     StatusBar,
     SplashScreen,
+    Authguard,
+    AuthService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
