@@ -9,14 +9,14 @@
   <ion-card color="light">
     <ion-card-content color="light">
       <ion-grid>
-        <form #form="ngForm" (ngSubmit)="logueo(form)">
+        <form #form="ngForm">
           <ion-row justify-content-center>
             <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-              <ion-input padding color="primary" name="email" type="email" placeholder="tu@correo.com" ngModel required>
+              <ion-input padding color="primary" name="email" type="email" placeholder="tu@correo.com" [(ngModel)]="user.email" required>
               </ion-input>
               <div id="grp">
                 <div>
-                  <ion-button color="primary" size="default" type="submit" [disabled]="form.invalid" expand="block">
+                  <ion-button color="primary" size="default" type="submit" [disabled]="form.invalid" expand="block" (click)="login()">
                     Entrar
                   </ion-button>
                 </div>

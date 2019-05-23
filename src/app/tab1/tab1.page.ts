@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { RestService } from '../Services/rest.service';
-import { DTuser } from '../models/models';
 import { Storage } from '@ionic/storage';
+import { DTUser } from '../models/user/dtuser';
 
 
 @Component({
@@ -11,7 +11,7 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-  userme:DTuser;
+  userme:DTUser;
   
   constructor(public nav:NavController,
                  public rest:RestService,
@@ -19,7 +19,7 @@ export class Tab1Page implements OnInit {
     
   this.storage.get('me')
     .then(value => {
-        let user = value as DTuser;
+        let user = value as DTUser;
         let div = document.getElementById("divuser");
         console.log(user.email);
         this.userme = user;
@@ -33,7 +33,8 @@ export class Tab1Page implements OnInit {
   }
 
   exit(){
-    this.storage.set('me','');
+    this.storage.remove('me');
+    this.nav.navigateRoot('/login');
   }
 
  

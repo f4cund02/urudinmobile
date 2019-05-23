@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../../Services/rest.service';
-import { DTuser, DTnewuser } from '../../models/models';
+import { DTnewuser } from '../../models/models';
 import { NavController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { DTUser } from 'src/app/models/user/dtuser';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class RegisterPage {
 
     this.rest.userRegister(aux).subscribe(
       data => {
-          const usu = data as DTuser;
+          const usu = data as DTUser;
           console.log('su nuevo id es : ', usu.id);
           this.navctrl.navigateForward('/tabs/tab2');
           this.storage.set('me', usu);

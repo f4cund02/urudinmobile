@@ -9,34 +9,35 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 })
 export class RestService {
 
-    
- milat:string;
- milng:string;
+
+  milat: string;
+  milng: string;
 
 
-  constructor(public http: HttpClient, 
-              public geo: Geolocation) { 
+  constructor(public http: HttpClient,
+    public geo: Geolocation) {
 
   }
 
 
 
   userLogin(email: String) {
-      console.log('Servicio: userLogin , parametro: ' + email);
-      return this.http.get('http://23.20.14.36:8080/rest-api/api/cliente/login?email=' + email + '');
+    console.log('Servicio: userLogin , parametro: ' + email);
+    return this.http.get('http://23.20.14.36:8080/rest-api/api/cliente/login?email=' + email + '');
 
-      // Seteo la variable modedero models.monedero = Dtuser.dinero;
+    // Seteo la variable modedero models.monedero = Dtuser.dinero;
   }
 
   userRegister(param: DTnewuser) {
     const data = JSON.stringify(param);
     console.log('Servicio: userRegister , parametro: ' + JSON.stringify(param));
     return this.http.post('http://23.20.14.36:8080/rest-api/api/cliente/'
-                            , data, {
-                              headers: {
-                                'content-type': 'application/json' }
-                            }
-      );
+      , data, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+    );
   }
 
 
@@ -47,34 +48,35 @@ export class RestService {
 
   }
 
-  getGeojson(){
+  getGeojson() {
 
     this.geo.getCurrentPosition().then((resp) => {
       // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
-       this.milat = resp.coords.latitude.toString();
-       this.milng = resp.coords.longitude.toString();
+      this.milat = resp.coords.latitude.toString();
+      this.milng = resp.coords.longitude.toString();
 
-        
+
     }).catch((error) => {
-          console.log('Error getting location', error);
-        });
+      console.log('Error getting location', error);
+    });
 
 
-        //FIXME: milat y milng no las puedo cargar porque son promesas ....
+    //FIXME: milat y milng no las puedo cargar porque son promesas ....
     var data = {
       "latitud": "-34.9181148",
-      "longitud" : "-56.1665118"
+      "longitud": "-56.1665118"
     };
     return this.http.post('http://23.20.14.36:8080/rest-api/api/scooterhistorico/cercanos'
-                            , data, {
-                              headers: {
-                                'content-type': 'application/json' }
-                            }
-      );
+      , data, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+    );
   }
 
-  monederoAcreditar(iduser:number ,idpago:string,monto:number) {
-    console.log("[servicio monederoAcreditar]: parametros -> "+iduser+" "+idpago+" "+monto);
+  monederoAcreditar(iduser: number, idpago: string, monto: number) {
+    console.log("[servicio monederoAcreditar]: parametros -> " + iduser + " " + idpago + " " + monto);
     alert("falta implementar servicio");
   }
 
@@ -106,16 +108,17 @@ export class RestService {
 
   }
 
-  informarDatos(param: DTinformarScooter){
+  informarDatos(param: DTinformarScooter) {
     const data = JSON.stringify(param);
     console.log('Servicio: informarDatos , parametro: ' + JSON.stringify(param));
     return this.http.post('http://urudin.tk:8080/rest-api/api/scooterhistorico/registro'
-                            , data, {
-                              headers: {
-                                'content-type': 'application/json' }
-                            }
-      );
+      , data, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+    );
   }
 
-  
+
 }
