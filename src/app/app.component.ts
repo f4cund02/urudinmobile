@@ -24,16 +24,19 @@ export class AppComponent {
     this.initializeApp();
     this.startBat();
     const interval2 = setInterval(function() {
-      console.log('[app.component.ts] informando al servidor bateria , coords y scooterid');
+      //console.log('[app.component.ts] informando al servidor bateria , coords y scooterid');
       this.geo.getCurrentPosition().then((resp) => {
             let info: DTinformarScooter;
-            info.bateria = this.contador; //FIXME: bateria undefined
-            info.scooterid = 1; // TODO: cual seria el id de scooter
-            info.latitud =  resp.coords.latitude.toString();
-            info.longitud =  resp.coords.longitude.toString();
+            info = {
+              bateria : this.contador,
+              scooterid : 1,
+              latitud : resp.coords.latitude.toString(),
+              longitud : resp.coords.longitude.toString()
+            }
+            
             this.rest.informarDatos(info).subscribe(
               data => {
-                  console.log('[app.component.ts] data: ', data);
+                 // console.log('[app.component.ts] data recibida por enviar localizacion y bateria : ', data);
               }, err => {
                 console.error('[app.component.ts] error al obtener respuesta', err);
 
@@ -41,7 +44,7 @@ export class AppComponent {
            }).catch((error) => {
                 console.log('Error sending location', error);
           });
-    }.bind(this), 4000);
+    }.bind(this), 6000);
     }
 
   initializeApp() {
@@ -54,10 +57,6 @@ export class AppComponent {
   startBat() {
     const interval = setInterval(function() {
         this.contador = this.contador - 0.1;
-
-          // TODO:ENVIAR LOCALZIACION A SERVIDOR
-          // TODO: ENVIAR TAMBIEN LA BATERIA
-
 
         if (this.contador === 20) {
           console.log('AVISO: Reportando bateria con 20 porciento');
