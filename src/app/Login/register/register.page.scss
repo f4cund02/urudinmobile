@@ -1,8 +1,11 @@
-ion-item{
-    --background: #3880ff;
-    --color: #fff;
-}
-
 ion-button{
     --background: #062f77;
+}
+
+ion-card-header{
+    text-align: center;
+}
+
+ion-input{
+    border-bottom: 1px solid #3880ff;    
 }

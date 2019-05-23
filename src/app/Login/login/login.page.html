@@ -1,7 +1,6 @@
 <ion-content color="dark">
-
-  <ion-card color="primary">
-    <ion-card-header color="primary">
+  <ion-card color="primary" padding>
+    <ion-card-header>
       <ion-card-title>Urudin</ion-card-title>
     </ion-card-header>
   </ion-card>
@@ -9,25 +8,24 @@
   <ion-card color="light">
     <ion-card-content color="light">
       <ion-grid>
-        <form #form="ngForm">
-          <ion-row justify-content-center>
-            <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
-              <ion-input padding color="primary" name="email" type="email" placeholder="tu@correo.com" [(ngModel)]="user.email" required>
-              </ion-input>
+        <ion-row justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <form #form="ngForm">
+              <ion-input color="primary" name="email" type="email" placeholder="tu@correo.com" [(ngModel)]="user.email"
+                required padding></ion-input>
               <div id="grp">
                 <div>
-                  <ion-button color="primary" size="default" type="submit" [disabled]="form.invalid" expand="block" (click)="login()">
-                    Entrar
-                  </ion-button>
+                  <ion-button color="primary" size="default" type="submit" [disabled]="form.invalid" expand="block"
+                    (click)="login()">Entrar</ion-button>
                 </div>
                 <div>
-                  <ion-button color="primary" size="default" expand="block" routerLink='/register'>Registrarse
+                  <ion-button color="primary" size="small" expand="block" routerLink='/register' padding>Registrarse
                   </ion-button>
                 </div>
               </div>
-            </ion-col>
-          </ion-row>
-        </form>
+            </form>
+          </ion-col>
+        </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
