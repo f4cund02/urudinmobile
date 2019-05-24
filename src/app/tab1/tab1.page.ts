@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { RestService } from '../Services/rest.service';
 import { Storage } from '@ionic/storage';
 import { DTUser } from '../models/user/dtuser';
+import { AuthService } from '../Services/auth/auth.service';
 
 
 @Component({
@@ -11,43 +12,37 @@ import { DTUser } from '../models/user/dtuser';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page implements OnInit {
-  userme:DTUser;
-  
-  constructor(public nav:NavController,
-                 public rest:RestService,
-                    public storage:Storage){
-    
-  this.storage.get('me')
-    .then(value => {
-        let user = value as DTUser;
-        let div = document.getElementById("divuser");
-        console.log(user.email);
-        this.userme = user;
-    }).catch(err=>{
-      console.error("No se pudo obtener usuario logueado", err);
-    });
-}
 
-  ngOnInit() {
-    
+  userme: DTUser;
+
+  constructor(public nav: NavController,
+    public rest: RestService,
+    public storage: Storage,
+    private auth: AuthService) {
+      this.storage.get('me')
+      .then(value => {
+        console.log(value);
+        this.userme = value;
+      }).catch(err => {
+        console.error("No se pudo obtener usuario logueado", err);
+      });
   }
 
-  exit(){
-    this.storage.remove('me');
-    this.nav.navigateRoot('/login');
+  ngOnInit() { }
+
+  exit() {
+    this.auth.logout();
   }
 
- 
-  redirect1(){
-   this.nav.navigateForward("misdatos");
+
+  redirect1() {
+    this.nav.navigateForward("misdatos");
     console.log("redirect to misdatos");
-    
   }
 
-  redirect2(){
+  redirect2() {
     this.nav.navigateForward("billetera");
     console.log("redirect to billetera");
   }
-
-
+  
 }
