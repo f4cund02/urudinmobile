@@ -13,7 +13,7 @@ import { AuthService } from '../Services/auth/auth.service';
 })
 export class Tab1Page implements OnInit {
 
-  userme: DTUser;
+  userme: DTUser = new DTUser();
 
   constructor(public nav: NavController,
     public rest: RestService,
