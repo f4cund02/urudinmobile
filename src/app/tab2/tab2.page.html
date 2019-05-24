@@ -1,15 +1,5 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>
-      Scooters
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
 <ion-content class="noscroll">
   <div id='mapid'>
-    <div class="buttoniniciar">
-      <ion-button expand="block" (click)="abrirQR()">Iniciar Viaje</ion-button>
-    </div>
     <div id="divInfo" style=" position: relative;height: 40%; border-color: black; display: none">
       <ion-card>
         <ion-card-header>
@@ -29,4 +19,9 @@
       </div>
     </div>
   </div>
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed">
+    <ion-fab-button (click)="abrirQR()">
+        <ion-icon name="expand"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
