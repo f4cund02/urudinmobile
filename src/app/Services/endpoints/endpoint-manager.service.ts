@@ -12,4 +12,8 @@ export class EndpointManagerService {
   getClientEndpoint(){
     return (this.urlbase + "/cliente");
   }
+
+  getParameterEndpoint(){
+    return (this.urlbase + "/parametro");
+  }
 }

@@ -6,10 +6,9 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as models from '../models/models';
 import { Storage } from '@ionic/storage';
 import { DTinfoScooter } from '../models/models';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { DTUser } from '../models/user/dtuser';
-
-
+import { ParameterService } from '../Services/parameter/parameter.service';
 
 @Component({
   selector: 'app-tab2',
@@ -20,42 +19,87 @@ export class Tab2Page implements OnInit, AfterViewInit {
 
   map: mapboxgl.Map;
   style: 'mapbox://style/mapbox/outdoors-v9';
-  milat = 0;
-  milng = 0;
+  milat = -34.91035;
+  milng = -56.16324;
   scooterinfo: models.DTscooter;
   saldo: number;
 
-  constructor(public barcodeScanner: BarcodeScanner,
+  constructor(
+    public barcodeScanner: BarcodeScanner,
     public rest: RestService,
     public geo: Geolocation,
     public storage: Storage,
-    public navctrl: NavController
-  ) {
-
-
-  }
+    public navctrl: NavController,
+    private toastController: ToastController,
+    private parameterAPI: ParameterService
+  ) { }
 
 
   ngOnInit() {
+    this.parameterAPI.getByKey("mapbox_access_token").subscribe(data => {
+      console.log(data);
+      mapboxgl.accessToken = data.valor;
+      this.buildmap();
+    }
+    );
 
-    this.buildmap();
     this.obtenersaldoMonedero();
-
   }
+
+  ngAfterViewInit() { }
+
+  buildmap() {
+    this.geo.watchPosition().subscribe(
+      data => {
+        console.log(data);
+        this.milat = data.coords.latitude;
+        this.milng = data.coords.longitude;
+      }
+    );
+    this.map = new mapboxgl.Map({
+      container: 'mapid',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [this.milng, this.milat],
+      trackResize: true,
+      zoom: 10
+    });
+    this.map.addControl(new mapboxgl.NavigationControl());
+
+    // llamo funcion getGeojson
+    this.rest.getGeojson().subscribe(
+      data => {
+        const datos = data as DTinfoScooter[];
+        for (let i = 0; i < datos.length; i++) {
+          new mapboxgl.Marker()
+            .setLngLat([+datos[i].longitud,
+            +datos[i].latitud])
+            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setHTML('<p>Scooter n°: ' + datos[i].id + '</p> <p>Bateria : ' + datos[i].bateria + '</p>'))
+            .addTo(this.map);
+        }
+      }, err => {
+        console.error('Hubo un error al recuperar los scooters cercanos , ', err);
+      }
+    );
+
+    this.map.on('load', (event) => {
+      this.map.resize();
+      console.log([this.milng, this.milat]);
+      new mapboxgl.Marker()
+        .setLngLat([this.milng, this.milat])
+        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML('<p>¡Aquí estas tu!</p>'))
+        .addTo(this.map);
+    });  }
+
 
   obtenersaldoMonedero() {
     this.storage.get('me').then(data => {
       const aux = data as DTUser;
       this.saldo = aux.saldo;
-
     }, err => {
       console.error('Error al recuperar el saldo de tu monedero', err);
-
     });
-  }
-
-  ngAfterViewInit() {
-
   }
 
   volver() {
@@ -64,20 +108,15 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   abrirQR() {
-    this.iniciarViaje();
-    /*lo de arriba es para probar  */
-    console.log('Abriendo QR cam');
+    this.presentToast("Abriendo QR cam...");
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
-      console.log(barcodeData.text);
-
       this.rest.scooterGetInfo(+barcodeData.text).subscribe(
         data => {
           const scooter_scan = data as models.DTscooter;
           console.log('Serial number: ' + scooter_scan.numeroserial);
           this.storage.set('tmpscooter', scooter_scan);
           this.scooterinfo = scooter_scan;
-
         }, err => {
           console.error('No se pudo obtener datos del QR', err);
 
@@ -86,80 +125,17 @@ export class Tab2Page implements OnInit, AfterViewInit {
       div.style.display = '';
       // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
 
-
     }).catch(err => {
       console.log('Error', err);
       console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
     });
   }
 
-
-
-  buildmap() {
-    mapboxgl.accessToken = 'pk.eyJ1IjoiZjRjdW5kMDIiLCJhIjoiY2p2aGNmemMyMDBxbzRhbzNxb3pydWV0eCJ9.wV6Ce8jWiMkdtUF-jKM8Kg';
-    this.map = new mapboxgl.Map({
-      container: 'mapid',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-56.16324, -34.91035],
-      trackResize: true,
-      zoom: 10
+  async presentToast(msg) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000
     });
-
-    this.map.addControl(new mapboxgl.NavigationControl());
-
-
-
-    // llamo funcion getGeojson
-    this.rest.getGeojson().subscribe(
-      data => {
-        const datos = data as DTinfoScooter[];
-
-        for (let i = 0; i < datos.length; i++) {
-
-          new mapboxgl.Marker()
-            .setLngLat([+datos[i].longitud,
-            +datos[i].latitud])
-            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-              .setHTML('<p>Scooter n°: ' + datos[i].id + '</p> <p>Bateria : ' + datos[i].bateria + '</p>'))
-            .addTo(this.map);
-
-        }
-
-
-      }, err => {
-        console.error('Hubo un error al recuperar los scooters cercanos , ', err);
-
-      }
-    );
-
-    // MI UBICACION//
-    this.geo.getCurrentPosition().then((resp) => {
-      // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
-      this.milat = resp.coords.latitude;
-      this.milng = resp.coords.longitude;
-      // this.restService.enviarLocalizacion(coords);
-      new mapboxgl.Marker()
-        .setLngLat([this.milng, this.milat])
-        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-          .setHTML('<h6> YO </h6>'))
-        .addTo(this.map);
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
-
-
-    this.map.on('load', (event) => {
-      this.map.resize();
-    });
-
+    toast.present();
   }
-
-  iniciarViaje() {
-    alert('iniciando viaje');
-  }
-
-
-
-
-
 }
