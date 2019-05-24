@@ -31,23 +31,12 @@ export class AppComponent {
     const interval2 = setInterval(function() {
       //console.log('[app.component.ts] informando al servidor bateria , coords y scooterid');
       this.geo.getCurrentPosition().then((resp) => {
-<<<<<<< HEAD
-            let info: DTinformarScooter;
-            info = {
-              bateria : this.contador,
-              scooterid : 1,
-              latitud : resp.coords.latitude.toString(),
-              longitud : resp.coords.longitude.toString()
-            }
-            
-=======
             let info: DTinformarScooter = new DTInformarScooter();
             info.bateria = this.contador; //FIXME: bateria undefined
             console.log(this.contador);
             info.scooterid = 1; // TODO: cual seria el id de scooter
             info.latitud =  resp.coords.latitude.toString();
             info.longitud =  resp.coords.longitude.toString();
->>>>>>> f55b92be51bfbb835073e877ea4be8ba5c5122a7
             this.rest.informarDatos(info).subscribe(
               data => {
                  // console.log('[app.component.ts] data recibida por enviar localizacion y bateria : ', data);
