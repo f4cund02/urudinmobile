@@ -39,7 +39,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.parameterAPI.getByKey("mapbox_access_token").subscribe(data => {
       console.log(data);
       mapboxgl.accessToken = data.valor;
-      this.buildmap();
+      this.buildMap();
     }
     );
 
@@ -48,14 +48,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
 
   ngAfterViewInit() { }
 
-  buildmap() {
-    this.geo.watchPosition().subscribe(
-      data => {
-        console.log(data);
-        this.milat = data.coords.latitude;
-        this.milng = data.coords.longitude;
-      }
-    );
+  buildMap() {
     this.map = new mapboxgl.Map({
       container: 'mapid',
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -63,7 +56,14 @@ export class Tab2Page implements OnInit, AfterViewInit {
       trackResize: true,
       zoom: 10
     });
+
     this.map.addControl(new mapboxgl.NavigationControl());
+    this.map.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+      enableHighAccuracy: true
+      },
+      trackUserLocation: true
+      }));
 
     // llamo funcion getGeojson
     this.rest.getGeojson().subscribe(
@@ -82,16 +82,12 @@ export class Tab2Page implements OnInit, AfterViewInit {
       }
     );
 
+    
+
     this.map.on('load', (event) => {
       this.map.resize();
-      console.log([this.milng, this.milat]);
-      new mapboxgl.Marker()
-        .setLngLat([this.milng, this.milat])
-        .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-          .setHTML('<p>¡Aquí estas tu!</p>'))
-        .addTo(this.map);
-    });  }
-
+    });
+  }
 
   obtenersaldoMonedero() {
     this.storage.get('me').then(data => {
