@@ -1,12 +1,35 @@
 <ion-header>
   <ion-toolbar color=primary>
-      <ion-buttons slot="start">
-          <ion-back-button></ion-back-button>
-        </ion-buttons>
-    <ion-title>Mis datos</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Actualizar mis datos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-card>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row justify-content-center>
+          <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+            <form #form="ngForm">
+              <ion-input color="primary" name="nombre" type="text" placeholder="Nombre" [(ngModel)]="user.nombre"
+                required padding></ion-input>
+              <ion-input color="primary" name="apellido" type="text" placeholder="Apellido" [(ngModel)]="user.apellido"
+                required padding></ion-input>
+              <ion-input color="primary" name="email" type="email" placeholder="Correo" [(ngModel)]="user.email"
+                required padding></ion-input>
+              <div id="grp">
+                <div>
+                  <ion-button color="primary" size="default" type="submit" [disabled]="form.invalid" expand="block"
+                    (click)="update()">Salvar</ion-button>
+                </div>
+              </div>
+            </form>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DTUser } from 'src/app/models/user/dtuser';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-misdatos',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MisdatosPage implements OnInit {
 
-  constructor() { }
+    user : DTUser = new DTUser();
+
+  constructor(
+    private storage : Storage
+  ) { }
 
   ngOnInit() {
+    this.storage.get("me").then(
+      response => {
+        console.log(response);
+        this.user = response;
+      }
+    );    
+  }
+
+  update(){
+    
   }
 
 }
