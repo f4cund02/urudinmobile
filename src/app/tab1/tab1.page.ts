@@ -4,7 +4,7 @@ import { RestService } from '../Services/rest.service';
 import { Storage } from '@ionic/storage';
 import { DTUser } from '../models/user/dtuser';
 import { AuthService } from '../Services/auth/auth.service';
-
+import { from } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -15,25 +15,31 @@ export class Tab1Page implements OnInit {
 
   userme: DTUser = new DTUser();
 
-  constructor(public nav: NavController,
+  constructor(
+    public nav: NavController,
     public rest: RestService,
     public storage: Storage,
-    private auth: AuthService) {
-      this.storage.get('me')
-      .then(value => {
-        console.log(value);
-        this.userme = value;
-      }).catch(err => {
-        console.error("No se pudo obtener usuario logueado", err);
-      });
+    private auth: AuthService
+  ) { }
+
+  ngOnInit() {
+    
   }
 
-  ngOnInit() { }
+  ionViewWillEnter(){
+    this.storage.get('me')
+    .then(value => {
+      console.log(value);
+      this.userme = value;
+      return value;
+    }).catch(err => {
+      console.error("No se pudo obtener usuario.", err);
+    })
+  }
 
   exit() {
     this.auth.logout();
   }
-
 
   redirect1() {
     this.nav.navigateForward("misdatos");
@@ -44,5 +50,5 @@ export class Tab1Page implements OnInit {
     this.nav.navigateForward("billetera");
     console.log("redirect to billetera");
   }
-  
+
 }

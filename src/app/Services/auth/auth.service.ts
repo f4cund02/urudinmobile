@@ -26,6 +26,7 @@ export class AuthService {
     });
   }
 
+
   ifLoggedIn() {
     this.storage.get('me').then((response) => {
       if (response) {
@@ -36,7 +37,7 @@ export class AuthService {
 
   login(user: DTUser,type:Number) {
     this.http.get(this.endpoints.getClientEndpoint() + '/login?email=' + user.email + '').subscribe(
-      result => {
+      (result : DTUser) => {
         this.storage.set('me', result).then((response) => {
           this.router.navigate(['/tabs/tab1']);
           this.authState.next(true);
