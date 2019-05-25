@@ -10,8 +10,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 export class RestService {
 
 
-  milat: string;
-  milng: string;
+  // milat: string;
+  // milng: string;
+  public latitud = "";
+  public longitud = "";
 
 
   constructor(public http: HttpClient,
@@ -19,6 +21,18 @@ export class RestService {
 
   }
 
+  setLatitudLongitudActuales(lat, long){
+    this.latitud = lat;
+    this.longitud = long;
+  }
+
+  getLatitudActual(){
+    return this.latitud;
+  }
+
+  getLongitudActual(){
+    return this.longitud;
+  }
 
 
   userLogin(email: String) {
@@ -48,23 +62,23 @@ export class RestService {
 
   }
 
-  getGeojson() {
+  getScooterCercanosAmiposicionActual() {
 
-    this.geo.getCurrentPosition().then((resp) => {
-      // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
-      this.milat = resp.coords.latitude.toString();
-      this.milng = resp.coords.longitude.toString();
+    // LAS UBICACIONES OBETENER LAS DE 1 SOLO LUGAR 
 
-
-    }).catch((error) => {
-      console.log('Error getting location', error);
-    });
+    // this.geo.getCurrentPosition().then((resp) => {
+    //   // const coords = resp.coords.latitude + ',' + resp.coords.longitude;
+    //   this.milat = resp.coords.latitude.toString();
+    //   this.milng = resp.coords.longitude.toString();
+    // }).catch((error) => {
+    //   console.log('Error getting location', error);
+    // });
 
 
     //FIXME: milat y milng no las puedo cargar porque son promesas ....
     var data = {
-      "latitud": "-34.9181148",
-      "longitud": "-56.1665118"
+      "latitud": this.latitud,
+      "longitud": this.longitud
     };
     return this.http.post('http://23.20.14.36:8080/rest-api/api/scooterhistorico/cercanos'
       , data, {
