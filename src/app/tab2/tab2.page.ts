@@ -19,8 +19,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
 
   map: mapboxgl.Map;
   style: 'mapbox://style/mapbox/outdoors-v9';
-  milat = -34.91035;
-  milng = -56.16324;
+  latCentrado = "";
+  lngCentrado = "";
   scooterinfo: models.DTscooter;
   saldo: number;
 
@@ -36,6 +36,10 @@ export class Tab2Page implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+    //ubicacion actual para centrado
+    this.latCentrado =  this.rest.getLatitudActual();
+    this.lngCentrado =  this.rest.getLongitudActual();
+
     this.parameterAPI.getByKey("mapbox_access_token").subscribe(data => {
       console.log(data);
       mapboxgl.accessToken = data.valor;
@@ -51,10 +55,11 @@ export class Tab2Page implements OnInit, AfterViewInit {
   buildMap() {
     this.map = new mapboxgl.Map({
       container: 'mapid',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: [this.milng, this.milat],
+      // style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/light-v9',
+      center: [Number(this.lngCentrado), Number(this.latCentrado)],
       trackResize: true,
-      zoom: 10
+      zoom: 14
     });
 
     this.map.addControl(new mapboxgl.NavigationControl());
@@ -66,7 +71,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
       }));
 
     // llamo funcion getGeojson
-    this.rest.getGeojson().subscribe(
+    this.rest.getScooterCercanosAmiposicionActual().subscribe(
       data => {
         const datos = data as DTinfoScooter[];
         for (let i = 0; i < datos.length; i++) {
@@ -74,7 +79,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
             .setLngLat([+datos[i].longitud,
             +datos[i].latitud])
             .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-              .setHTML('<p>Scooter n°: ' + datos[i].id + '</p> <p>Bateria : ' + datos[i].bateria + '</p>'))
+              .setHTML('<p>Scooter n°: ' + datos[i]["scooter"].numeroserial + '</p> <p>Bateria : ' + datos[i].bateria + '</p>'))
             .addTo(this.map);
         }
       }, err => {
@@ -104,7 +109,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   abrirQR() {
-    this.presentToast("Abriendo QR cam...");
+    this.presentToast("Escanear QR scooter con camara");
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
       this.rest.scooterGetInfo(+barcodeData.text).subscribe(
