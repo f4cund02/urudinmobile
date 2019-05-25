@@ -36,7 +36,7 @@ export class AppComponent {
             let info: DTinformarScooter = new DTInformarScooter();
             info.bateria = this.contador; //FIXME: bateria undefined
             console.log(this.contador);
-            info.scooterid = 2; // TODO: cual seria el id de scooter
+            info.scooterid = 1; // TODO: cual seria el id de scooter
             info.latitud =  resp.coords.latitude.toString();
             info.longitud =  resp.coords.longitude.toString();
             this.rest.setLatitudLongitudActuales(resp.coords.latitude.toString(),resp.coords.longitude.toString());
