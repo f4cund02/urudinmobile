@@ -7,7 +7,9 @@ const routes: Routes = [
   { path: 'register', loadChildren: './Login/register/register.module#RegisterPageModule' },
   { path: 'login', loadChildren: './Login/login/login.module#LoginPageModule' },
   { path: 'billetera', loadChildren: './miperfil/billetera/billetera.module#BilleteraPageModule',canActivate:[Authguard] },
-  { path: 'misdatos', loadChildren: './miperfil/misdatos/misdatos.module#MisdatosPageModule',canActivate:[Authguard] }
+  { path: 'misdatos', loadChildren: './miperfil/misdatos/misdatos.module#MisdatosPageModule',canActivate:[Authguard] },
+  { path: 'notificacion', loadChildren: './notificacion/notificacion.module#NotificacionPageModule',canActivate:[Authguard] }
+
 ];
 @NgModule({
   imports: [
