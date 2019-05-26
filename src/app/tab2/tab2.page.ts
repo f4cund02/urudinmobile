@@ -6,9 +6,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import * as models from '../models/models';
 import { Storage } from '@ionic/storage';
 import { DTinfoScooter } from '../models/models';
-import { NavController, ToastController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 import { DTUser } from '../models/user/dtuser';
 import { ParameterService } from '../Services/parameter/parameter.service';
+import { ToastService } from '../Services/toast/toast.service';
 
 @Component({
   selector: 'app-tab2',
@@ -18,7 +19,6 @@ import { ParameterService } from '../Services/parameter/parameter.service';
 export class Tab2Page implements OnInit, AfterViewInit {
 
   map: mapboxgl.Map;
-  style: 'mapbox://style/mapbox/outdoors-v9';
   latCentrado = "";
   lngCentrado = "";
   scooterinfo: models.DTscooter;
@@ -30,15 +30,14 @@ export class Tab2Page implements OnInit, AfterViewInit {
     public geo: Geolocation,
     public storage: Storage,
     public navctrl: NavController,
-    private toastController: ToastController,
+    private toast: ToastService,
     private parameterAPI: ParameterService
   ) { }
 
-
   ngOnInit() {
     //ubicacion actual para centrado
-    this.latCentrado =  this.rest.getLatitudActual();
-    this.lngCentrado =  this.rest.getLongitudActual();
+    this.latCentrado = this.rest.getLatitudActual();
+    this.lngCentrado = this.rest.getLongitudActual();
 
     this.parameterAPI.getByKey("mapbox_access_token").subscribe(data => {
       console.log(data);
@@ -55,7 +54,6 @@ export class Tab2Page implements OnInit, AfterViewInit {
   buildMap() {
     this.map = new mapboxgl.Map({
       container: 'mapid',
-      // style: 'mapbox://styles/mapbox/streets-v11',
       style: 'mapbox://styles/mapbox/light-v9',
       center: [Number(this.lngCentrado), Number(this.latCentrado)],
       trackResize: true,
@@ -65,10 +63,10 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.map.addControl(new mapboxgl.NavigationControl());
     this.map.addControl(new mapboxgl.GeolocateControl({
       positionOptions: {
-      enableHighAccuracy: true
+        enableHighAccuracy: true
       },
       trackUserLocation: true
-      }));
+    }));
 
     // llamo funcion getGeojson
     this.rest.getScooterCercanosAmiposicionActual().subscribe(
@@ -86,21 +84,23 @@ export class Tab2Page implements OnInit, AfterViewInit {
         console.error('Hubo un error al recuperar los scooters cercanos , ', err);
       }
     );
-
-    
-
-    this.map.on('load', (event) => {
-      this.map.resize();
-    });
+    this.map.on('load',
+      (event) => {
+        this.map.resize();
+      }
+    );
   }
 
   obtenersaldoMonedero() {
-    this.storage.get('me').then(data => {
-      const aux = data as DTUser;
-      this.saldo = aux.saldo;
-    }, err => {
-      console.error('Error al recuperar el saldo de tu monedero', err);
-    });
+    this.storage.get('me').then(
+      data => {
+        const aux = data as DTUser;
+        this.saldo = aux.saldo;
+      },
+      err => {
+        console.error('Error al recuperar el saldo de tu monedero', err);
+      }
+    );
   }
 
   volver() {
@@ -109,7 +109,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   abrirQR() {
-    this.presentToast("Escanear QR scooter con camara");
+    // TODO: Pasar el UI del pago a un ion-modal
     this.barcodeScanner.scan().then(barcodeData => {
       console.log('Barcode data', barcodeData);
       this.rest.scooterGetInfo(+barcodeData.text).subscribe(
@@ -132,11 +132,4 @@ export class Tab2Page implements OnInit, AfterViewInit {
     });
   }
 
-  async presentToast(msg) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 2000
-    });
-    toast.present();
-  }
 }

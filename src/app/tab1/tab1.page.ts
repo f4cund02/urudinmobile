@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { RestService } from '../Services/rest.service';
 import { Storage } from '@ionic/storage';
 import { DTUser } from '../models/user/dtuser';
 import { AuthService } from '../Services/auth/auth.service';
-import { from } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -17,7 +15,6 @@ export class Tab1Page implements OnInit {
 
   constructor(
     public nav: NavController,
-    public rest: RestService,
     public storage: Storage,
     private auth: AuthService
   ) { }
