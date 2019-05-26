@@ -1,10 +1,12 @@
+<ion-header>
+  <ion-toolbar color=primary>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>¡Registrate!</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content color="dark">
-  <ion-card color="primary">
-    <ion-card-header>
-      <ion-card-title>¡Registrate!</ion-card-title>
-    </ion-card-header>
-  </ion-card>
-
   <ion-card color="light">
     <ion-card-content color="light">
       <ion-grid>
@@ -12,15 +14,19 @@
           <ion-row color="primary" justify-content-center>
             <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
               <div padding>
-                <ion-input color=primary name="nombre" type="text" placeholder="Ingresa tu nombre" [(ngModel)]="user.nombre" required>
+                <ion-input color=primary name="nombre" type="text" placeholder="Ingresa tu nombre"
+                  [(ngModel)]="user.nombre" required>
                 </ion-input>
-                <ion-input color=primary name="apellido" type="text" placeholder="Ingresa tu apellido" [(ngModel)]="user.apellido" required>
+                <ion-input color=primary name="apellido" type="text" placeholder="Ingresa tu apellido"
+                  [(ngModel)]="user.apellido" required>
                 </ion-input>
-                <ion-input color=primary name="email" type="email" placeholder="Ingresa tu correo" [(ngModel)]="user.email" required>
+                <ion-input color=primary name="email" type="email" placeholder="Ingresa tu correo"
+                  [(ngModel)]="user.email" required>
                 </ion-input>
               </div>
               <div padding>
-                <ion-button color=primary size="default" [disabled]="form.invalid" expand="block" (click)="register()">Registrarse</ion-button>
+                <ion-button color=primary size="default" [disabled]="!isValid()" expand="block" (click)="register()">
+                  Registrarse</ion-button>
               </div>
             </ion-col>
           </ion-row>
