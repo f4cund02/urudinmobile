@@ -59,7 +59,6 @@ export class RestService {
     const data = id;
     console.log('Servicio: scooterGetInfo , parametro: ' + id);
     return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/' + id + '');
-
   }
 
   getScooterCercanosAmiposicionActual() {
