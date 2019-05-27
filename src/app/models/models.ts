@@ -78,6 +78,33 @@ export interface DTnewuser {
 export interface DTfactura {
 
 }
+
 interface DTviaje {
 
+}
+
+
+export class DTnotificacion{
+  id: number;
+  cabezal: string;
+  cuerpo: string;
+  estado: string;
+  masiva: boolean;
+
+  constructor(obj: any) {
+      this.id = obj.id;
+      this.cabezal = obj.cabezal;
+      this.cuerpo = obj.cuerpo;
+      this.estado = obj.estado;
+      this.masiva = obj.masiva;
+  }
+}
+
+
+export class Post {
+  dtnotificacion: DTnotificacion[];
+
+  constructor(obj: any) {
+      this.dtnotificacion = obj.dtnotificacion;
+  }
 }

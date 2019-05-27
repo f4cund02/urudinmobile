@@ -48,4 +48,9 @@ export class Tab1Page implements OnInit {
     console.log("redirect to billetera");
   }
 
+  notificacion() {
+    this.nav.navigateForward("notificacion");
+    console.log("redirect to billetera");
+  }
+
 }
