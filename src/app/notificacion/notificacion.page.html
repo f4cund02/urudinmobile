@@ -1,24 +1,25 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Notificaciones</ion-title>
-  </ion-toolbar>
-</ion-header>
+    <ion-toolbar color=primary>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Notificaciones</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content>
 
   
-    <ion-card>
+    <ion-card *ngFor="let dtnotificacion of NotificacionesDT">
         <ion-item>
             <ion-icon name="notifications" slot="start"></ion-icon>
-            <ion-label>Notificacion #56 </ion-label>
-            <ion-button fill="outline" slot="end">Eliminar</ion-button>
+            <ion-label>Notificacion #{{dtnotificacion?.id}} </ion-label>
+            <ion-button fill="outline" (click)="eliminar(dtnotificacion.id)" slot="end">Eliminar</ion-button>
           </ion-item>
         <ion-card-header>
-          <ion-card-title>Notificacion una cualquiera</ion-card-title>
+          <ion-card-title>{{dtnotificacion?.cabezal}}</ion-card-title>
         </ion-card-header>
-        <ion-card-content>
-          Soy el contenido de una notificacion enviada por el servidor
-        </ion-card-content>
+        <ion-card-content>{{dtnotificacion?.cuerpo}}</ion-card-content>
       </ion-card>
       
    
