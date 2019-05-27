@@ -3,13 +3,13 @@ import mapboxgl from 'mapbox-gl';
 import { RestService } from '../Services/rest.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import * as models from '../models/models';
 import { Storage } from '@ionic/storage';
-import { DTinfoScooter } from '../models/models';
-import { NavController } from '@ionic/angular';
+import { DTinfoScooter, DTscooter } from '../models/models';
+import { NavController, ModalController } from '@ionic/angular';
 import { DTUser } from '../models/user/dtuser';
 import { ParameterService } from '../Services/parameter/parameter.service';
 import { ToastService } from '../Services/toast/toast.service';
+import { ModalExample } from './modals/modal';
 
 @Component({
   selector: 'app-tab2',
@@ -21,7 +21,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
   map: mapboxgl.Map;
   latCentrado = "";
   lngCentrado = "";
-  scooterinfo: models.DTscooter;
+  scooterinfo: DTscooter;
   saldo: number;
 
   constructor(
@@ -110,26 +110,34 @@ export class Tab2Page implements OnInit, AfterViewInit {
 
   abrirQR() {
     // TODO: Pasar el UI del pago a un ion-modal
-    this.barcodeScanner.scan().then(barcodeData => {
-      console.log('Barcode data', barcodeData);
-      this.rest.scooterGetInfo(+barcodeData.text).subscribe(
-        data => {
-          const scooter_scan = data as models.DTscooter;
-          console.log('Serial number: ' + scooter_scan.numeroserial);
-          this.storage.set('tmpscooter', scooter_scan);
-          this.scooterinfo = scooter_scan;
-        }, err => {
-          console.error('No se pudo obtener datos del QR', err);
+    this.barcodeScanner.scan().then(
+      barcodeData => {
+        console.log(barcodeData);
+        this.rest.scooterGetInfo(+barcodeData.text).subscribe(
+          data => {
+            console.log(data);
+            const scooter_scan = data as DTscooter;
+            this.storage.set('tmpscooter', scooter_scan);
+            this.scooterinfo = scooter_scan;
 
-        });
-      const div = document.getElementById('divInfo');
-      div.style.display = '';
-      // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
+            let a : ModalExample;
+            a.presentModal();
 
-    }).catch(err => {
-      console.log('Error', err);
-      console.log('Debes escanearlo desde un celular , o quiza tu smartphone no tiene el plugin de cordova..');
-    });
+          }
+          , err => {
+            console.error('No se pudo obtener datos del QR', err);
+          }
+        );
+        const div = document.getElementById('divInfo');
+        div.style.display = '';
+        // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
+      }
+    ).catch(
+      err => {
+        console.log(err);
+        this.toast.presentToast("Ha ocurrido un error. Revisa que puedas escanear codigos QR.","danger");        
+      }
+    );
   }
 
 }
