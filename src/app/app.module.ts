@@ -10,6 +10,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +34,7 @@ import { AuthService } from './Services/auth/auth.service';
     PayPal,
     StatusBar,
     SplashScreen,
+    OneSignal,
     Authguard,
     AuthService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

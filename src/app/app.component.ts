@@ -8,6 +8,7 @@ import { DTinformarScooter } from './models/models';
 import { AuthService } from './Services/auth/auth.service';
 import { Router } from '@angular/router';
 import { DTInformarScooter } from './models/InformarScooter/dtinformar-scooter';
+import { PushNotService } from './Services/Push/push-not.service';
 
 
 @Component({
@@ -25,10 +26,12 @@ export class AppComponent {
     private statusBar: StatusBar,
     public rest: RestService,
     public auth: AuthService,
-    private router: Router
+    private router: Router,
+    public push: PushNotService
   ) {
     this.initializeApp();  
     this.startBat();
+    this.push.configuracionInicial();
 
     const interval2 = setInterval(function() {
       //console.log('[app.component.ts] informando al servidor bateria , coords y scooterid');
