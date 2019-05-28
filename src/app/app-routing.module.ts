@@ -8,7 +8,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: './Login/login/login.module#LoginPageModule' },
   { path: 'billetera', loadChildren: './miperfil/billetera/billetera.module#BilleteraPageModule',canActivate:[Authguard] },
   { path: 'misdatos', loadChildren: './miperfil/misdatos/misdatos.module#MisdatosPageModule',canActivate:[Authguard] },
-  { path: 'notificacion', loadChildren: './notificacion/notificacion.module#NotificacionPageModule',canActivate:[Authguard] }
+  { path: 'notificacion', loadChildren: './notificacion/notificacion.module#NotificacionPageModule',canActivate:[Authguard] },  { path: 'misviajes', loadChildren: './MisViaje/misviajes/misviajes.module#MisviajesPageModule' }
+
 
 ];
 @NgModule({

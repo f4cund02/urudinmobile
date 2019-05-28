@@ -3,12 +3,17 @@ export var enViaje = false;
 export const monedero = null;
 export var bat = 100;
 
+export interface  DTinfoViaje{
+  
+}
+
 export interface DTinformarScooter{
   latitud: string;
   longitud: string;
   bateria: number;
   scooterid: number;
 }
+
 
  export interface DTpaypalResp {
   client: DTClient;
@@ -78,11 +83,6 @@ export interface DTnewuser {
 export interface DTfactura {
 
 }
-
-interface DTviaje {
-
-}
-
 
 export class DTnotificacion{
   id: number;

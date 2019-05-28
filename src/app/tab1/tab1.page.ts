@@ -48,6 +48,11 @@ export class Tab1Page implements OnInit {
     console.log("redirect to billetera");
   }
 
+  misviajes(){
+    this.nav.navigateForward("misviajes");
+    console.log("redirect to misviajes");
+  }
+
   notificacion() {
     this.nav.navigateForward("notificacion");
     console.log("redirect to billetera");

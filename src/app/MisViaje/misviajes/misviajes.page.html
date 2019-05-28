@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Viajes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card *ngFor="let item of viajes">  
+    <!-- por cada viaje realizado creo un header  y un content.... -->
+    <ion-card-header>Viaje n°x : {{item}}</ion-card-header>
+    <ion-card-subtitle>Datos del viaje</ion-card-subtitle>
+    <ion-card-content>datoooos</ion-card-content>
+
+  </ion-card>
+
+</ion-content>
