@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color=primary>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Pagos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-card *ngFor="let dtpago of PagosDT">
+      <ion-item>
+          <ion-icon name="logo-usd" slot="start"></ion-icon>
+          <ion-label>Transaccion #{{dtpago?.idtransaccion}}</ion-label>
+        </ion-item>
+      <ion-card-header>
+        <ion-card-title>Monto: {{dtpago?.monto}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>Fecha: {{getStringDate(dtpago?.fecha)}} <br>
+        Saldo Anterior: {{dtpago?.saldoanterior}}<br>
+        Motivo: {{dtpago?.motivo}}<br>
+        IdPago #{{dtpago?.id}} 
+      </ion-card-content>
+    </ion-card>
+    
+ 
+
+</ion-content>

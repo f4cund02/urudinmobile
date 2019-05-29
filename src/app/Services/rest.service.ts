@@ -109,8 +109,8 @@ export class RestService {
 
   }
 
-  pagosGet() {
-
+  pagosGet(clienteid: number) {
+    return this.http.get('http://urudin.tk:8080/rest-api/api/monederohistorico/usuariopagos/' + clienteid);
   }
 
   usuarioUpdate(DTuser) {
