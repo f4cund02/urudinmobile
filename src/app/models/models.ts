@@ -3,9 +3,7 @@ export var enViaje = false;
 export const monedero = null;
 export var bat = 100;
 
-export interface  DTinfoViaje{
-  
-}
+
 
 export interface DTinformarScooter{
   latitud: string;
@@ -115,6 +113,28 @@ export class DTpago{
       this.motivo = obj.motivo;
       this.monto = obj.monto;
       this.idtransaccion = obj.idtransaccion;
+  }
+}
+
+export class  DTinfoviaje{
+  id: number;
+  fechainicio: number;
+  fechafin: number;
+  mailCliente: string;
+  numeroserial: string;
+  minutos: number;
+  costoTotal: number;
+  estado: string;
+
+  constructor(obj: any) {
+    this.id= obj.id;
+    this.fechainicio= obj.fechainicio;
+    this.fechafin= obj.fechafin;
+    this.mailCliente= obj.mailCliente;
+    this.numeroserial= obj.numeroserial;
+    this.minutos= obj.minutos;
+    this.costoTotal= obj.costoTotal;
+    this.estado= obj.estado;
   }
 }
 

@@ -105,8 +105,8 @@ export class RestService {
 
   }
 
-  viajesGet() {
-
+  viajesGet(clienteid: number) {
+    return this.http.get('http://urudin.tk:8080/rest-api/api/viaje/usuario/' + clienteid);
   }
 
   pagosGet(clienteid: number) {

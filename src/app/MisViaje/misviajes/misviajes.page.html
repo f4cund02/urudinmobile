@@ -1,17 +1,27 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Mis Viajes</ion-title>
+  <ion-toolbar color=primary>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Viajes</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <ion-card *ngFor="let item of viajes">  
-    <!-- por cada viaje realizado creo un header  y un content.... -->
-    <ion-card-header>Viaje n°x : {{item}}</ion-card-header>
-    <ion-card-subtitle>Datos del viaje</ion-card-subtitle>
-    <ion-card-content>datoooos</ion-card-content>
-
+  
+  <ion-card *ngFor="let infoviaje of InfoviajeDT">
+    <ion-item>
+        <ion-icon name="navigate" slot="start"></ion-icon>
+        <ion-label>{{getStringDateCorto(infoviaje?.fechainicio)}} - Duracion {{infoviaje?.minutos}}</ion-label>
+      </ion-item>
+    <ion-card-header>
+      <ion-card-title>Costo Total {{infoviaje?.costoTotal}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>Estado: {{infoviaje?.estado}} <br>
+      Inicio: {{getStringDate(infoviaje?.fechainicio)}} <br>
+      Fin: {{getStringDate(infoviaje?.fechafin)}} <br>
+      Scooter #serial: {{infoviaje?.numeroserial}} <br>
+    </ion-card-content>
   </ion-card>
 
 </ion-content>
