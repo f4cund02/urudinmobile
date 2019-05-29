@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { DTinfoViaje } from "../../models/models";
+import { AuthService } from 'src/app/Services/auth/auth.service';
 import { Storage } from '@ionic/storage';
+import { NavController } from '@ionic/angular';
+import { RestService } from '../../Services/rest.service';
+import { DTinfoviaje } from '../../models/models';
 
 @Component({
   selector: 'app-misviajes',
@@ -9,14 +12,39 @@ import { Storage } from '@ionic/storage';
 })
 export class MisviajesPage implements OnInit {
 
-  viajes: Array<DTinfoViaje> = new Array<DTinfoViaje>();
+  constructor( private storage: Storage,
+    private auth : AuthService,
+    public restservice: RestService) { }
 
-  constructor(public storage: Storage) { }
+    ClintId : number = 0 ;
+    InfoviajeDT: DTinfoviaje[] = [];
 
 
-  ngOnInit() {
-    //TODO: CARGAR VIAJES CON EL ARREGLO DE JSON QUE ME LLEGA POR REST
-    
-  }
+    ngOnInit() {
+      this.storage.get("me").then(
+        response => {
+          this.ClintId = response.id;
+          this.restservice.viajesGet(this.ClintId).subscribe(
+            (result : DTinfoviaje[]) => {
+            this.InfoviajeDT = result;
+          });
+        
+        }
+      ); 
+    }
+  
+  
+    getStringDate(timestamp) {
+      let date=new Date(timestamp);  
+      return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+      //return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+      //return date.toLocaleString("es-UY", {timeZone: "America/Montevideo"});;
+    }
 
+    getStringDateCorto(timestamp) {
+      let date=new Date(timestamp);  
+      //return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + " " + date.getHours() + ":" + date.getMinutes();
+      return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+      //return date.toLocaleString("es-UY", {timeZone: "America/Montevideo"});;
+    }
 }
