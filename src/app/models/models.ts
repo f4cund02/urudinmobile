@@ -100,6 +100,23 @@ export class DTnotificacion{
   }
 }
 
+export class DTpago{
+  id: number;
+  fecha: number;
+  saldoanterior: number;
+  motivo: string;
+  monto: number;
+  idtransaccion: string;
+
+  constructor(obj: any) {
+      this.id = obj.id;
+      this.fecha = obj.fecha;
+      this.saldoanterior = obj.saldoanterior;
+      this.motivo = obj.motivo;
+      this.monto = obj.monto;
+      this.idtransaccion = obj.idtransaccion;
+  }
+}
 
 export class Post {
   dtnotificacion: DTnotificacion[];
