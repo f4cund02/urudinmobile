@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as models from '../models/models';
-import { DTnewuser, DTinfoScooter, DTfeature, DTGeometry, DTProperties, DTinformarScooter, DTnotificacion } from '../models/models';
+import { DTnewuser, DTinfoScooter, DTfeature, DTGeometry, DTProperties, DTinformarScooter, DTnotificacion, dataStartViaje } from '../models/models';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Injectable({
@@ -97,8 +97,15 @@ export class RestService {
 
   }
 
-  viajeIniciar() {
-
+  viajeIniciar(paramData : dataStartViaje) {
+    var data = JSON.stringify(paramData);
+    return this.http.post('http://api.urudin.tk:8080/rest-api/api/viaje'
+      , data, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+    );
   }
 
   viajeFin() {

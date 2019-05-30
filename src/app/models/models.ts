@@ -2,8 +2,37 @@
 export var enViaje = false;
 export const monedero = null;
 export var bat = 100;
+export interface ResponseStartViaje {
+  id: number;
+  fechainicio: number;
+  fechafin?: any;
+  estado: string;
+  minutospermitidossaldo: number;
+  factura?: any;
+  cliente: ClienteViaje;
+  scooter: DTscooter;
+}
 
 
+export interface ClienteViaje {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  saldo: number;
+}
+export interface dataStartViaje {
+  cliente: viaje_Cliente;
+  scooter: viaje_scooter;
+}
+
+export interface viaje_Cliente {
+  id: number;
+}
+
+export interface viaje_scooter {
+  id: number;
+}
 
 export interface DTinformarScooter{
   latitud: string;

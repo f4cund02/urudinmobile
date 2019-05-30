@@ -4,7 +4,7 @@ import { RestService } from '../Services/rest.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
-import { DTinfoScooter, DTscooter } from '../models/models';
+import { DTinfoScooter, DTscooter, viaje_scooter, viaje_Cliente, dataStartViaje, ResponseStartViaje } from '../models/models';
 import { NavController, ModalController } from '@ionic/angular';
 import { DTUser } from '../models/user/dtuser';
 import { ParameterService } from '../Services/parameter/parameter.service';
@@ -23,6 +23,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
   lngCentrado = "";
   scooterinfo: DTscooter;
   saldo: number;
+  userme: DTUser;
 
   constructor(
     public barcodeScanner: BarcodeScanner,
@@ -47,6 +48,13 @@ export class Tab2Page implements OnInit, AfterViewInit {
     );
 
     this.obtenersaldoMonedero();
+
+    this.storage.get('me').then(data=>{
+       this.userme = data as DTUser;
+    }, err => {
+      console.error("Se produjo un error al obtener el usuario del storage en tab2.ts", err);
+      
+    })
   }
 
   ngAfterViewInit() { }
@@ -138,6 +146,43 @@ export class Tab2Page implements OnInit, AfterViewInit {
         this.toast.presentToast("Ha ocurrido un error. Revisa que puedas escanear codigos QR.","danger");        
       }
     );
+  }
+
+  iniciarViaje(){
+    var paramData : dataStartViaje;
+    var scooterr : viaje_scooter;
+    var client: viaje_Cliente;
+
+    //TODO: chequear corriendo en celular
+
+    scooterr = {
+      id: this.scooterinfo.id
+    }
+    client = {
+      id: this.userme.id
+    }
+    // scooterr = {
+    //   id: 1
+    // }
+    // client = {
+    //   id: 1
+    // }
+    
+    paramData = {
+      cliente: client,
+      scooter: scooterr
+    }
+
+    this.rest.viajeIniciar(paramData).subscribe(data=>{
+      var response : ResponseStartViaje;
+      response = data as ResponseStartViaje;
+      this.toast.presentToast("Comenzando Viaje. Numero de viaje ["+response.id+"]","danger");
+      //TODO: FIJAR UN DIV EN EL MAPA QUE DIGA EN VIAJE Y QUE TE DE LA OPCION DE FINALIZARLO.
+
+    },err => {  
+        console.error("Hubo un error al comenzar viaje",err);
+        
+    })
   }
 
 }
