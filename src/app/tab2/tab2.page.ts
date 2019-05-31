@@ -24,6 +24,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
   scooterinfo: DTscooter;
   saldo: number;
   userme: DTUser;
+  datosQR:Boolean = false;
+  enViaje:Boolean = false;
 
   constructor(
     public barcodeScanner: BarcodeScanner,
@@ -112,43 +114,67 @@ export class Tab2Page implements OnInit, AfterViewInit {
   }
 
   volver() {
-    const div = document.getElementById('divInfo');
-    div.style.display = 'none';
+    this.datosQR = false;
+    this.ngOnInit();
+  }
+
+  finalizarviaje() {
+    this.enViaje = false;
   }
 
   abrirQR() {
-    // TODO: Pasar el UI del pago a un ion-modal
-    this.barcodeScanner.scan().then(
-      barcodeData => {
-        console.log(barcodeData);
-        this.rest.scooterGetInfo(+barcodeData.text).subscribe(
-          data => {
-            console.log(data);
-            const scooter_scan = data as DTscooter;
-            this.storage.set('tmpscooter', scooter_scan);
-            this.scooterinfo = scooter_scan;
+    this.datosQR = true;
+    console.log("ABRO CAMARA ");
 
-            let a : ModalExample;
-            a.presentModal();
-
-          }
-          , err => {
-            console.error('No se pudo obtener datos del QR', err);
-          }
-        );
-        const div = document.getElementById('divInfo');
-        div.style.display = '';
-        // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
+    // TODO: TEST HARDCODED
+    this.rest.scooterGetInfo(56).subscribe(
+      data => {
+        console.log(data);
+        const scooter_scan = data as DTscooter;
+        this.storage.set('tmpscooter', scooter_scan);
+        this.scooterinfo = scooter_scan;
       }
-    ).catch(
-      err => {
-        console.log(err);
-        this.toast.presentToast("Ha ocurrido un error. Revisa que puedas escanear codigos QR.","danger");        
+      , err => {
+        console.error('No se pudo obtener datos del QR', err);
       }
     );
+   
+    console.log("MUESTRO DATOS");
+
+    // // TODO: Pasar el UI del pago a un ion-modal
+    // this.barcodeScanner.scan().then(
+    //   barcodeData => {
+    //     console.log(barcodeData);
+    //     this.rest.scooterGetInfo(+barcodeData.text).subscribe(
+    //       data => {
+    //         console.log(data);
+    //         const scooter_scan = data as DTscooter;
+    //         this.storage.set('tmpscooter', scooter_scan);
+    //         this.scooterinfo = scooter_scan;
+
+    //         let a : ModalExample;
+    //         a.presentModal();
+
+    //       }
+    //       , err => {
+    //         console.error('No se pudo obtener datos del QR', err);
+    //       }
+    //     );
+    //     const div = document.getElementById('divInfo');
+    //     div.style.display = '';
+    //     // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
+    //   }
+    // ).catch(
+    //   err => {
+    //     console.log(err);
+    //     this.toast.presentToast("Ha ocurrido un error. Revisa que puedas escanear codigos QR.","danger");        
+    //   }
+    // );
   }
 
   iniciarViaje(){
+    this.enViaje = true;
+
     var paramData : dataStartViaje;
     var scooterr : viaje_scooter;
     var client: viaje_Cliente;
