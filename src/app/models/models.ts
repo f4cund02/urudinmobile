@@ -2,25 +2,11 @@
 export var enViaje = false;
 export const monedero = null;
 export var bat = 100;
-export interface ResponseStartViaje {
-  id: number;
-  fechainicio: number;
-  fechafin?: any;
-  estado: string;
-  minutospermitidossaldo: number;
-  factura?: any;
-  cliente: ClienteViaje;
-  scooter: DTscooter;
-}
 
 
-export interface ClienteViaje {
-  id: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  saldo: number;
-}
+
+
+
 export interface dataStartViaje {
   cliente: viaje_Cliente;
   scooter: viaje_scooter;
@@ -93,13 +79,7 @@ export interface DTGeometry {
 2 - tmpscooter (DTscooter del Qr scaneado)
 
 */
-export interface DTscooter {
-  id: number;
-  numeroserial: string;
-  encendido: boolean;
-  enuso: boolean;
-  eliminado: boolean;
-}
+
 
 export interface DTnewuser {
   nombre: string;
@@ -124,6 +104,29 @@ export class DTnotificacion{
       this.cuerpo = obj.cuerpo;
       this.estado = obj.estado;
       this.masiva = obj.masiva;
+  }
+}
+
+
+export class DTscooterScan{
+  id: number;
+  numeroserial: string;
+  encendido: boolean;
+  enuso: boolean;
+  bateria: number;
+  kmDisponibles: number;
+  costoMinuto: number;
+  costoBase: number;
+
+  constructor(obj: any) {
+    this.id= obj.id;
+    this.numeroserial= obj.numeroserial;
+    this.encendido= obj.encendido;
+    this.enuso= obj.enuso;
+    this.bateria= obj.bateria;
+    this.kmDisponibles= obj.kmDisponibles;
+    this.costoMinuto= obj.costoMinuto;
+    this.costoBase= obj.costoBase;
   }
 }
 
@@ -167,10 +170,69 @@ export class  DTinfoviaje{
   }
 }
 
-export class Post {
-  dtnotificacion: DTnotificacion[];
+export class ClienteViaje {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  saldo: number;
+  constructor(obj: any) {
+    this.id= obj.id;
+    this.nombre= obj.nombre;
+    this.apellido= obj.apellido;
+    this.email= obj.email;
+    this.saldo= obj.saldo;
+  }
+}
+
+export class DTscooter {
+  id: number;
+  numeroserial: string;
+  encendido: boolean;
+  enuso: boolean;
+  eliminado: boolean;
+  constructor(obj: any) {
+    this.id= obj.id;
+    this.numeroserial= obj.numeroserial;
+    this.encendido= obj.encendido;
+    this.enuso= obj.enuso;
+    this.eliminado= obj.eliminado;
+  }
+}
+
+
+export class DTresumenViaje {
+  minutos: number;
+  costoMinuto: number;
+  costoBase: number;
+  costoTotal: number;
+  constructor(obj: any) {
+    this.minutos= obj.minutos;
+    this.costoMinuto= obj.costoMinuto;
+    this.costoBase= obj.costoBase;
+    this.costoTotal= obj.costoTotal;
+  }
+}
+
+
+export class ResponseStartViaje {
+  id: number;
+  fechainicio: number;
+  fechafin: number;
+  estado: string;
+  minutospermitidossaldo: number;
+  factura?: any;
+  cliente: ClienteViaje;
+  scooter: DTscooter;
 
   constructor(obj: any) {
-      this.dtnotificacion = obj.dtnotificacion;
+    this.id= obj.id;
+    this.fechainicio= obj.fechainicio;
+    this.fechafin= obj.fechafin;
+    this.minutospermitidossaldo= obj.minutospermitidossaldo;
+    this.estado= obj.estado;
+    this.factura= obj.factura;
+    this.cliente = obj["cliente"];
+    this.scooter = obj["scooter"];
   }
 }

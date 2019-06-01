@@ -10,19 +10,40 @@
   <div *ngIf="datosQR" id="divInfo" >
       <ion-card>
         <ion-card-header>
-          <ion-card-subtitle *ngIf="scooterinfo">ID: {{scooterinfo.id}}</ion-card-subtitle>
-          <ion-card-title *ngIf="scooterinfo">Serial number: {{scooterinfo.numeroserial}}</ion-card-title>
-          <ion-card-content></ion-card-content>
+          <ion-card-subtitle >Id: {{scooterinfo?.id}} #{{scooterinfo?.numeroserial}}</ion-card-subtitle>
+          <ion-card-title >
+            Bateria: {{scooterinfo?.bateria}}% <br>
+            Km de recorido: {{scooterinfo?.kmDisponibles}}
+          </ion-card-title>
         </ion-card-header>
-
-        <ion-card-content>
-          Descripcion , Serial bla bla
+        <ion-card-content  *ngIf="!enViaje && !viajeFinalizado">Costo Base: {{scooterinfo?.costoBase}} <br>
+            Costo Por Minuto: {{scooterinfo?.costoMinuto}} <br>
+            Encendido: {{scooterinfo?.encendido}}  <br>
+            Siendo Utilizado: {{scooterinfo?.enuso}}
+        </ion-card-content>
+        <ion-card-content  *ngIf="enViaje">Costo Base: {{scooterinfo?.costoBase}} <br>
+          Costo Por Minuto: {{scooterinfo?.costoMinuto}} <br>
+          Encendido: {{scooterinfo?.encendido}}  <br>
+          Siendo Utilizado: {{scooterinfo?.enuso}}
+          <br>
+          <br>
+          Datos del VIAJE:<br>
+          Id Viaje: {{datosViaje?.id}}<br>
+          Estado: {{datosViaje?.estado}}<br>
+        </ion-card-content>
+        <ion-card-content  *ngIf="viajeFinalizado">
+          Minutos viaje: {{resumenViaje?.minutos}}  <br>
+          Costo Por Minuto: {{resumenViaje?.costoMinuto}} <br>
+          Costo Base: {{resumenViaje?.costoBase}} <br>
+          Costo Total de este Viaje: {{resumenViaje?.costoTotal}}
         </ion-card-content>
       </ion-card>
+
       <div>
-        <ion-button (click)="iniciarViaje()"  *ngIf="!enViaje"  expand="block">Iniciar viaje</ion-button>
-        <ion-button (click)="volver()" expand="block" *ngIf="!enViaje">Volver</ion-button>
-        <ion-button (click)="finalizarviaje()" expand="block" *ngIf="enViaje" >Finalizar viaje</ion-button>
+        <ion-button (click)="iniciarViaje()"  *ngIf="!enViaje && !viajeFinalizado"  expand="block">Iniciar viaje</ion-button>
+        <ion-button (click)="volver()" expand="block" *ngIf="!enViaje  && !viajeFinalizado">Volver</ion-button>
+        <ion-button (click)="finalizarviaje()" expand="block" *ngIf="enViaje && !viajeFinalizado" >FINALIZAR VIAJE</ion-button>
+        <ion-button (click)="volver()" expand="block" *ngIf="viajeFinalizado">ACEPTAR</ion-button>
       </div>
     </div>
 

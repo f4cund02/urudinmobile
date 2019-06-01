@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as models from '../models/models';
-import { DTnewuser, DTinfoScooter, DTfeature, DTGeometry, DTProperties, DTinformarScooter, DTnotificacion, dataStartViaje } from '../models/models';
+import { DTnewuser, ResponseStartViaje, DTinfoScooter, DTfeature, DTGeometry, DTProperties, DTinformarScooter, DTnotificacion, dataStartViaje } from '../models/models';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @Injectable({
@@ -58,7 +58,7 @@ export class RestService {
   scooterGetInfo(id: number) {
     const data = id;
     console.log('Servicio: scooterGetInfo , parametro: ' + id);
-    return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/' + id + '');
+    return this.http.get('http://urudin.tk:8080/rest-api/api/scooter/infoscan/' + id);
   }
 
   getScooterCercanosAmiposicionActual() {
@@ -108,8 +108,15 @@ export class RestService {
     );
   }
 
-  viajeFin() {
-
+  viajeFin(paramData : ResponseStartViaje) {
+    var data = JSON.stringify(paramData);
+    return this.http.put('http://api.urudin.tk:8080/rest-api/api/viaje'
+      , data, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+    );
   }
 
   viajesGet(clienteid: number) {

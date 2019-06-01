@@ -4,7 +4,7 @@ import { RestService } from '../Services/rest.service';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
-import { DTinfoScooter, DTscooter, viaje_scooter, viaje_Cliente, dataStartViaje, ResponseStartViaje } from '../models/models';
+import { DTinfoScooter, DTresumenViaje, DTscooterScan, viaje_scooter, viaje_Cliente, dataStartViaje, ResponseStartViaje } from '../models/models';
 import { NavController, ModalController } from '@ionic/angular';
 import { DTUser } from '../models/user/dtuser';
 import { ParameterService } from '../Services/parameter/parameter.service';
@@ -21,11 +21,14 @@ export class Tab2Page implements OnInit, AfterViewInit {
   map: mapboxgl.Map;
   latCentrado = "";
   lngCentrado = "";
-  scooterinfo: DTscooter;
+  scooterinfo: DTscooterScan;
+  datosViaje: ResponseStartViaje;
+  resumenViaje: DTresumenViaje;
   saldo: number;
   userme: DTUser;
   datosQR:Boolean = false;
   enViaje:Boolean = false;
+  viajeFinalizado:Boolean = false;
 
   constructor(
     public barcodeScanner: BarcodeScanner,
@@ -115,85 +118,66 @@ export class Tab2Page implements OnInit, AfterViewInit {
 
   volver() {
     this.datosQR = false;
+    this.enViaje = false;
+    this.viajeFinalizado = false;
     this.ngOnInit();
   }
 
   finalizarviaje() {
-    this.enViaje = false;
+    this.rest.viajeFin(this.datosViaje).subscribe(data=>{
+      var response : DTresumenViaje;
+      response = data as DTresumenViaje;
+      this.resumenViaje = response;
+      this.enViaje = false;
+      this.viajeFinalizado = true;
+      this.toast.presentToast("Viaje finalizado con exito. vea el resumen del viaje","primary");
+      console.log("COSTOTOAL:"+this.resumenViaje.costoTotal);
+    },err => {  
+        console.error("Hubo un error al comenzar viaje",err);
+        
+    })
+
   }
 
   abrirQR() {
-    this.datosQR = true;
     console.log("ABRO CAMARA ");
-
-    // TODO: TEST HARDCODED
-    this.rest.scooterGetInfo(56).subscribe(
-      data => {
-        console.log(data);
-        const scooter_scan = data as DTscooter;
-        this.storage.set('tmpscooter', scooter_scan);
-        this.scooterinfo = scooter_scan;
+    // TODO: Pasar el UI del pago a un ion-modal
+    this.barcodeScanner.scan().then(
+      barcodeData => {
+        console.log(barcodeData.text);
+        this.rest.scooterGetInfo(+barcodeData.text).subscribe(
+          data => {
+            console.log(data);
+            const scooter_scan = data as DTscooterScan;
+            this.storage.set('tmpscooter', scooter_scan);
+            this.scooterinfo = scooter_scan;
+            console.log("MUESTRO DATOS");
+            this.datosQR = true;
+          }
+          , err => {
+            console.log(err);
+            this.toast.presentToast("Ha ocurrido un error al traer los datos del QR.","danger");        
+          }
+        );
       }
-      , err => {
-        console.error('No se pudo obtener datos del QR', err);
+    ).catch(
+      err => {
+        console.log(err);
+        this.toast.presentToast("Ha ocurrido un error. Revisa que puedas escanear codigos QR.","danger");        
       }
     );
-   
-    console.log("MUESTRO DATOS");
-
-    // // TODO: Pasar el UI del pago a un ion-modal
-    // this.barcodeScanner.scan().then(
-    //   barcodeData => {
-    //     console.log(barcodeData);
-    //     this.rest.scooterGetInfo(+barcodeData.text).subscribe(
-    //       data => {
-    //         console.log(data);
-    //         const scooter_scan = data as DTscooter;
-    //         this.storage.set('tmpscooter', scooter_scan);
-    //         this.scooterinfo = scooter_scan;
-
-    //         let a : ModalExample;
-    //         a.presentModal();
-
-    //       }
-    //       , err => {
-    //         console.error('No se pudo obtener datos del QR', err);
-    //       }
-    //     );
-    //     const div = document.getElementById('divInfo');
-    //     div.style.display = '';
-    //     // TODO: MOSTRAR INFO DEL SCOOTER Y ADEMAS EL SALDO DE SU MONEDERO
-    //   }
-    // ).catch(
-    //   err => {
-    //     console.log(err);
-    //     this.toast.presentToast("Ha ocurrido un error. Revisa que puedas escanear codigos QR.","danger");        
-    //   }
-    // );
   }
 
   iniciarViaje(){
-    this.enViaje = true;
-
     var paramData : dataStartViaje;
     var scooterr : viaje_scooter;
     var client: viaje_Cliente;
-
-    //TODO: chequear corriendo en celular
-
     scooterr = {
       id: this.scooterinfo.id
     }
     client = {
       id: this.userme.id
     }
-    // scooterr = {
-    //   id: 1
-    // }
-    // client = {
-    //   id: 1
-    // }
-    
     paramData = {
       cliente: client,
       scooter: scooterr
@@ -202,9 +186,11 @@ export class Tab2Page implements OnInit, AfterViewInit {
     this.rest.viajeIniciar(paramData).subscribe(data=>{
       var response : ResponseStartViaje;
       response = data as ResponseStartViaje;
-      this.toast.presentToast("Comenzando Viaje. Numero de viaje ["+response.id+"]","danger");
-      //TODO: FIJAR UN DIV EN EL MAPA QUE DIGA EN VIAJE Y QUE TE DE LA OPCION DE FINALIZARLO.
-
+      this.toast.presentToast("Comenzando Viaje. #Viaje ["+response.id+"]","primary");
+      //'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'light' | 'medium' | 'dark';
+      this.datosViaje = response;
+      this.enViaje = true;
+      console.log("Datosviaje:" + this.datosViaje);
     },err => {  
         console.error("Hubo un error al comenzar viaje",err);
         
