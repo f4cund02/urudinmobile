@@ -77,6 +77,7 @@ export class BilleteraPage implements OnInit {
 
           this.rest.monederoAcreditar(this.userme.id,response.response.id,this.monto).subscribe(
             resp=>{
+              console.log("response de servicio acreditar:",resp);
               var respDT = new DTUser();
               respDT = resp as DTUser;
               this.storage.get('me').then(
