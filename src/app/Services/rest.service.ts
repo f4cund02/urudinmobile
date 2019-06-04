@@ -97,7 +97,7 @@ export class RestService {
       "monto" : monto
     }
     console.log("[servicio monederoAcreditar]: parametros -> " + iduser + " " + idpago + " " + monto);
-    return this.http.post('hhttp://api.urudin.tk:8080/rest-api/api/monederohistorico'
+    return this.http.post('https://api.urudin.tk/monederohistorico'
       , data, {
         headers: {
           'content-type': 'application/json'
