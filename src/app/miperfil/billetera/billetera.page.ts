@@ -65,18 +65,34 @@ export class BilleteraPage implements OnInit {
                           " time create: " + response.response.create_time);
 
           //actualizo saldo del usuario actual
-          this.storage.get('me').then(
-            data=>{
-                  var useraux =  data as DTUser;
-                  useraux.saldo += this.monto;
-                  console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
-          },err=>{
-              console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
+          // this.storage.get('me').then(
+          //   data=>{
+          //         var useraux =  data as DTUser;
+          //         useraux.saldo += this.monto;
+          //         console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
+          // },err=>{
+          //     console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
               
-          });
+          // });
 
-          this.rest.monederoAcreditar(this.userme.id,response.response.id,this.monto);
-          //TODO: ENVIAR INFORMACION DE PAGO AL SERVIDOR , AGREGAR LO ACREDITADO AL MONEDERO                 
+          this.rest.monederoAcreditar(this.userme.id,response.response.id,this.monto).subscribe(
+            resp=>{
+              var respDT = new DTUser();
+              respDT = resp as DTUser;
+              this.storage.get('me').then(
+                data=>{
+                      var useraux =  data as DTUser;
+                      useraux.saldo += respDT.saldo;
+                      console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
+              },err=>{
+                  console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
+                  
+              });
+            },err=>{
+              console.error("Error en billetera.page.ts  en la respuesta del servicio [monederoAcreditar]",err);
+
+            }
+          )
 
         }, () => {
           console.error("[PAYPAL RENDER]:  Error or render dialog closed without being successful ");

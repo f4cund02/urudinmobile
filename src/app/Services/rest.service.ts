@@ -89,8 +89,21 @@ export class RestService {
   }
 
   monederoAcreditar(iduser: number, idpago: string, monto: number) {
+    var data = {
+      "dtcliente" : {
+        "id" : iduser
+      },
+      "idtransaccion" : idpago,
+      "monto" : monto
+    }
     console.log("[servicio monederoAcreditar]: parametros -> " + iduser + " " + idpago + " " + monto);
-    alert("falta implementar servicio");
+    return this.http.post('hhttp://api.urudin.tk:8080/rest-api/api/monederohistorico'
+      , data, {
+        headers: {
+          'content-type': 'application/json'
+        }
+      }
+    );
   }
 
   scootersGet(lat: String, lng: String) {
