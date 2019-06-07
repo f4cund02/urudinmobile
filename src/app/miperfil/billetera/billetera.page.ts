@@ -78,7 +78,6 @@ export class BilleteraPage implements OnInit {
               this.storage.get('me').then(
                 data=>{
                       this.userme.saldo = respDT.saldo;
-                      alert("respDT.saldo: " +respDT.saldo + " this.userme.saldo : " + this.userme.saldo);
                       this.monto = 0;
                       this.storage.set('me',this.userme);
                       console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",respDT.saldo);
