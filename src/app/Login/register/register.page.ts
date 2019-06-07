@@ -32,12 +32,7 @@ export class RegisterPage implements OnInit {
         this.auth.login(u, 2);
       },
       error => {
-        console.log(error);
-        if (!error.error) {
-          this.toast.presentToast("El correo ingresado ya esta siendo utilizado.", 'danger');
-        } else {
-          this.toast.presentToast("Algo salio mal. Intentelo de nuevo.", 'danger');
-        }
+        this.toast.presentToast("Ocurrio un Error: " + error["error"].message,"danger");   
       }
     );
   }

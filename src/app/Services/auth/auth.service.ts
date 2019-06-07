@@ -47,13 +47,7 @@ export class AuthService {
         });
       },
       error => {
-        let msg = "";
-        if (type == 1) {
-          msg = 'Error al iniciar sesion.\nIngrese un usuario ya registrado.'
-        } else {
-          msg = 'Error en el registro.\nIntente iniciar sesión de forma normal.'
-        }
-        this.toast.presentToast(msg, "danger");
+        this.toast.presentToast("Ocurrio un Error: " + error["error"].message,"danger");   
       }
     );
   }

@@ -29,22 +29,59 @@ export class Tab1Page implements OnInit {
     });
   }
 
-  ionViewWillEnter(){
-    this.storage.get('me').then(value => {
+  ionViewDidLoad() {
+    this.storage.get('me')
+    .then(value => {
         const user = value as DTUser;
         this.userme = user;
     }).catch(err => {
       console.error('No se pudo obtener usuario logueado', err);
     });
-    this.ngOnInit();
   }
-
-  ionViewDidLeave(){
-    this.ngOnInit();
+ionViewWillEnter() {
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
   }
-
-  ngOnDestroy(){
-    this.ngOnInit();
+ionViewDidEnter() {
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
+  }
+ionViewWillLeave() {
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
+  }
+ionViewDidLeave() {
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
+  }
+ionViewWillUnload() {
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
   }
 
   setUser(user : DTUser) {

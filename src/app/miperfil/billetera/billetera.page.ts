@@ -4,6 +4,8 @@ import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal
 import { DTpaypalResp, DTClient, DTResponse } from '../../models/models';
 import { RestService } from '../../Services/rest.service';
 import { DTUser } from 'src/app/models/user/dtuser';
+import { NavController } from '@ionic/angular';
+import { ToastService } from 'src/app/Services/toast/toast.service';
 
 
 @Component({
@@ -17,7 +19,9 @@ export class BilleteraPage implements OnInit {
 
   constructor(public storage: Storage,
               public payPal: PayPal,
-              public rest: RestService) {
+              private navCtrl: NavController,
+              public rest: RestService,
+              private toast: ToastService) {
     this.storage.get('me')
     .then(value => {
         const user = value as DTUser;
@@ -71,24 +75,15 @@ export class BilleteraPage implements OnInit {
 
         this.rest.monederoAcreditar(this.userme.id,response.response.id,this.monto).subscribe(
             resp=>{
-              console.log("response de servicio acreditar:",resp);
               var respDT = new DTUser();
               respDT = resp as DTUser;
               this.userme = respDT;
+              this.toast.presentToast('Saldo acreditado.', 'success');
               this.storage.remove('me');
               this.storage.set('me', respDT);
-              //
-
-              this.ngOnInit();
-              // this.storage.get('me').then(
-              //   data=>{
-              //         var useraux =  data as DTUser;
-              //         useraux.saldo += respDT.saldo;
-              //         console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
-              // },err=>{
-              //     console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
-                  
-              // });
+              //console.log("reload..");
+              //location.reload();
+              //this.navCtrl.navigateBack('/tabs/tab1');
             },err=>{
               console.error("Error en billetera.page.ts  en la respuesta del servicio [monederoAcreditar]",err);
 
