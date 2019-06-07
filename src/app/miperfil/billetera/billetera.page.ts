@@ -73,6 +73,8 @@ export class BilleteraPage implements OnInit {
                 data=>{
                       var useraux =  data as DTUser;
                       useraux.saldo += respDT.saldo;
+                      this.userme.saldo = useraux.saldo;
+                      this.monto = 0;
                       console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
               },err=>{
                   console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
