@@ -12,10 +12,10 @@
   <ion-card *ngFor="let infoviaje of InfoviajeDT">
     <ion-item>
         <ion-icon name="navigate" slot="start"></ion-icon>
-        <ion-label>{{getStringDateCorto(infoviaje?.fechainicio)}} - Duracion {{infoviaje?.minutos}}</ion-label>
+        <ion-label>Del {{getStringDateCorto(infoviaje?.fechainicio)}} - Duracion {{infoviaje?.minutos}} minuto</ion-label>
       </ion-item>
     <ion-card-header>
-      <ion-card-title>Costo Total {{infoviaje?.costoTotal}}</ion-card-title>
+      <ion-card-title>Costo Total $: {{infoviaje?.costoTotal}}</ion-card-title>
     </ion-card-header>
     <ion-card-content>Estado: {{infoviaje?.estado}} <br>
       Inicio: {{getStringDate(infoviaje?.fechainicio)}} <br>
