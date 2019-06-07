@@ -22,6 +22,7 @@ export class BilleteraPage implements OnInit {
     .then(value => {
         const user = value as DTUser;
         this.userme = user;
+        this.monto = user.saldo;
     }).catch(err => {
       console.error('No se pudo obtener usuario logueado', err);
     });
@@ -74,38 +75,27 @@ export class BilleteraPage implements OnInit {
               console.log("response de servicio acreditar:",resp);
               var respDT = new DTUser();
               respDT = resp as DTUser;
-<<<<<<< HEAD
               this.storage.get('me').then(
                 data=>{
-                      var useraux =  data as DTUser;
-                      useraux.saldo += respDT.saldo;
-                      this.userme.saldo = useraux.saldo;
+                      this.userme.saldo = respDT.saldo;
+                      alert("respDT.saldo: " +respDT.saldo + " this.userme.saldo : " + this.userme.saldo);
                       this.monto = 0;
-                      console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
+                      this.storage.set('me',this.userme);
+                      console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",respDT.saldo);
               },err=>{
                   console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
-=======
-              this.userme = respDT;
-              this.storage.remove('me');
-              this.storage.set('me', respDT);
+              // this.userme = respDT;
+              // this.storage.remove('me');
+              // this.storage.set('me', respDT);
               //
 
-              this.ngOnInit();
-              // this.storage.get('me').then(
-              //   data=>{
-              //         var useraux =  data as DTUser;
-              //         useraux.saldo += respDT.saldo;
-              //         console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
-              // },err=>{
-              //     console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
->>>>>>> 4bc0b68fc30ea3dc5a93b95bad2ac2e54aff778a
-                  
-              // });
-            },err=>{
+            
+            })
+          }),err=>{
               console.error("Error en billetera.page.ts  en la respuesta del servicio [monederoAcreditar]",err);
 
             }
-          )
+          
 
         }, () => {
           console.error("[PAYPAL RENDER]:  Error or render dialog closed without being successful ");
