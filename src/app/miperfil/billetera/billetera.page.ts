@@ -6,8 +6,6 @@ import { RestService } from '../../Services/rest.service';
 import { DTUser } from 'src/app/models/user/dtuser';
 
 
-
-
 @Component({
   selector: 'app-billetera',
   templateUrl: './billetera.page.html',
@@ -31,6 +29,13 @@ export class BilleteraPage implements OnInit {
   }
 
   ngOnInit() {
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
   }
 
   activardiv() {
@@ -80,15 +85,21 @@ export class BilleteraPage implements OnInit {
               console.log("response de servicio acreditar:",resp);
               var respDT = new DTUser();
               respDT = resp as DTUser;
-              this.storage.get('me').then(
-                data=>{
-                      var useraux =  data as DTUser;
-                      useraux.saldo += respDT.saldo;
-                      console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
-              },err=>{
-                  console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
+              this.userme = respDT;
+              this.storage.remove('me');
+              this.storage.set('me', respDT);
+              //
+
+              this.ngOnInit();
+              // this.storage.get('me').then(
+              //   data=>{
+              //         var useraux =  data as DTUser;
+              //         useraux.saldo += respDT.saldo;
+              //         console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
+              // },err=>{
+              //     console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
                   
-              });
+              // });
             },err=>{
               console.error("Error en billetera.page.ts  en la respuesta del servicio [monederoAcreditar]",err);
 

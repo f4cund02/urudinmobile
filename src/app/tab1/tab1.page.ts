@@ -20,18 +20,35 @@ export class Tab1Page implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
   }
 
   ionViewWillEnter(){
-    this.storage.get('me')
-    .then(value => {
-      console.log(value);
-      this.userme = value;
-      return value;
+    this.storage.get('me').then(value => {
+        const user = value as DTUser;
+        this.userme = user;
     }).catch(err => {
-      console.error("No se pudo obtener usuario.", err);
-    })
+      console.error('No se pudo obtener usuario logueado', err);
+    });
+    this.ngOnInit();
+  }
+
+  ionViewDidLeave(){
+    this.ngOnInit();
+  }
+
+  ngOnDestroy(){
+    this.ngOnInit();
+  }
+
+  setUser(user : DTUser) {
+    this.userme = user;
   }
 
   exit() {

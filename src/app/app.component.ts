@@ -18,6 +18,8 @@ import { PushNotService } from './Services/Push/push-not.service';
 export class AppComponent {
 
   public contador = 100;
+  public idscootersimulado  = 4;
+  public scooterencendio = true;
 
   constructor(
     private platform: Platform,
@@ -39,17 +41,27 @@ export class AppComponent {
             let info: DTinformarScooter = new DTInformarScooter();
             info.bateria = this.contador; //FIXME: bateria undefined
             console.log(this.contador);
-            info.scooterid = 4; // TODO: cual seria el id de scooter
+            info.scooterid = this.idscootersimulado; // TODO: cual seria el id de scooter
             info.latitud =  resp.coords.latitude.toString();
             info.longitud =  resp.coords.longitude.toString();
             this.rest.setLatitudLongitudActuales(resp.coords.latitude.toString(),resp.coords.longitude.toString());
-            this.rest.informarDatos(info).subscribe(
-              data => {
-                 // console.log('[app.component.ts] data recibida por enviar localizacion y bateria : ', data);
-              }, err => {
-                console.error('[app.component.ts] error al obtener respuesta', err);
-
-              });
+            if(this.contador > 0) {  
+              //  esta encendido.
+              this.rest.informarDatos(info).subscribe(
+                data => {
+                   // console.log('[app.component.ts] data recibida por enviar localizacion y bateria : ', data);
+                }, err => {
+                  console.error('[app.component.ts] error al obtener respuesta', err);
+                });
+            } else if (this.scooterencendio){
+                // apagar dispositivo.
+                this.rest.apagarscooter(this.idscootersimulado).subscribe(
+                  data => {
+                    this.scooterencendio = false;
+                }, err => {
+                  console.log('Fallo apagar scooter.');
+                });
+            }
            }).catch((error) => {
                 console.log('Error sending location', error);
           });
@@ -78,6 +90,7 @@ export class AppComponent {
   startBat() {
     const interval = setInterval(function() {
         this.contador = this.contador - 0.1;
+        //this.contador = this.contador - 10;
 
         if (this.contador === 20) {
           console.log('AVISO: Reportando bateria con 20 porciento');
