@@ -26,6 +26,7 @@ export class BilleteraPage implements OnInit {
     .then(value => {
         const user = value as DTUser;
         this.userme = user;
+        this.monto = user.saldo;
     }).catch(err => {
       console.error('No se pudo obtener usuario logueado', err);
     });
@@ -88,7 +89,7 @@ export class BilleteraPage implements OnInit {
               console.error("Error en billetera.page.ts  en la respuesta del servicio [monederoAcreditar]",err);
 
             }
-          )
+          
 
         }, () => {
           console.error("[PAYPAL RENDER]:  Error or render dialog closed without being successful ");

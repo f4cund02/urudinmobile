@@ -9,7 +9,7 @@ import { AuthService } from '../Services/auth/auth.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit {
+export class Tab1Page implements OnInit{
 
   userme: DTUser = new DTUser();
 
