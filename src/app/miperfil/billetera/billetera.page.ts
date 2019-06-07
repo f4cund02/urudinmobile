@@ -69,18 +69,7 @@ export class BilleteraPage implements OnInit {
                           " id: "+response.response.id+
                           " time create: " + response.response.create_time);
 
-          //actualizo saldo del usuario actual
-          // this.storage.get('me').then(
-          //   data=>{
-          //         var useraux =  data as DTUser;
-          //         useraux.saldo += this.monto;
-          //         console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
-          // },err=>{
-          //     console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
-              
-          // });
-
-          this.rest.monederoAcreditar(this.userme.id,response.response.id,this.monto).subscribe(
+        this.rest.monederoAcreditar(this.userme.id,response.response.id,this.monto).subscribe(
             resp=>{
               console.log("response de servicio acreditar:",resp);
               var respDT = new DTUser();
@@ -115,7 +104,7 @@ export class BilleteraPage implements OnInit {
     }, () => {
       console.error("[PAYPAL INIT] Error in initialization, maybe PayPal isn't supported or something else");
     });
-
+      this.ngOnInit();
   }
 
 }
