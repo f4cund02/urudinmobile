@@ -192,8 +192,7 @@ export class Tab2Page implements OnInit, AfterViewInit {
       this.enViaje = true;
       console.log("Datosviaje:" + this.datosViaje);
     },err => {  
-        console.error("Hubo un error al comenzar viaje",err);
-        
+        this.toast.presentToast("Ocurrio un Error: " + err["error"].message,"danger");      
     })
   }
 

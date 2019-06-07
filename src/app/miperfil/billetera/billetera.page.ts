@@ -6,8 +6,6 @@ import { RestService } from '../../Services/rest.service';
 import { DTUser } from 'src/app/models/user/dtuser';
 
 
-
-
 @Component({
   selector: 'app-billetera',
   templateUrl: './billetera.page.html',
@@ -31,6 +29,13 @@ export class BilleteraPage implements OnInit {
   }
 
   ngOnInit() {
+    this.storage.get('me')
+    .then(value => {
+        const user = value as DTUser;
+        this.userme = user;
+    }).catch(err => {
+      console.error('No se pudo obtener usuario logueado', err);
+    });
   }
 
   activardiv() {
@@ -69,6 +74,7 @@ export class BilleteraPage implements OnInit {
               console.log("response de servicio acreditar:",resp);
               var respDT = new DTUser();
               respDT = resp as DTUser;
+<<<<<<< HEAD
               this.storage.get('me').then(
                 data=>{
                       var useraux =  data as DTUser;
@@ -78,8 +84,23 @@ export class BilleteraPage implements OnInit {
                       console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
               },err=>{
                   console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
+=======
+              this.userme = respDT;
+              this.storage.remove('me');
+              this.storage.set('me', respDT);
+              //
+
+              this.ngOnInit();
+              // this.storage.get('me').then(
+              //   data=>{
+              //         var useraux =  data as DTUser;
+              //         useraux.saldo += respDT.saldo;
+              //         console.log("[billetera.page.ts]: actualizando dtuser del storage, ahora , tiene saldo : ",useraux.saldo);
+              // },err=>{
+              //     console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
+>>>>>>> 4bc0b68fc30ea3dc5a93b95bad2ac2e54aff778a
                   
-              });
+              // });
             },err=>{
               console.error("Error en billetera.page.ts  en la respuesta del servicio [monederoAcreditar]",err);
 
