@@ -86,11 +86,16 @@ export class BilleteraPage implements OnInit {
               //location.reload();
               //this.navCtrl.navigateBack('/tabs/tab1');
             },err=>{
+              this.storage.get('me').then(
+                data=>{
+                  
+              },err=>{
+                  console.error("Error en billetera.page.ts al actualizar el saldo del usuario registrado en el storage",err);
+            })
+          }),err=>{
               console.error("Error en billetera.page.ts  en la respuesta del servicio [monederoAcreditar]",err);
 
             }
-          
-
         }, () => {
           console.error("[PAYPAL RENDER]:  Error or render dialog closed without being successful ");
         });
