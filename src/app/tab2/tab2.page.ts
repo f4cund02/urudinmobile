@@ -132,6 +132,16 @@ export class Tab2Page implements OnInit, AfterViewInit {
       this.viajeFinalizado = true;
       this.toast.presentToast("Viaje finalizado con exito. vea el resumen del viaje","primary");
       console.log("COSTOTOAL:"+this.resumenViaje.costoTotal);
+      this.storage.get('me').then(
+        data => {
+          const aux = data as DTUser;
+          this.saldo = aux.saldo - this.resumenViaje.costoTotal;
+          this.storage.set('me',aux)   ;
+        },
+        err => {
+          console.error('Error al recuperar el saldo de tu monedero', err);
+        }
+      );
     },err => {  
         console.error("Hubo un error al comenzar viaje",err);
         
@@ -190,6 +200,8 @@ export class Tab2Page implements OnInit, AfterViewInit {
       //'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'light' | 'medium' | 'dark';
       this.datosViaje = response;
       this.enViaje = true;
+      //TODO: Agregar listener que cuando cambie la variable "enViaje" a false , se termine el viaje.
+      //  usar esto para leer variable.. cada cierto tiempo   }.bind(this), 6000);
       console.log("Datosviaje:" + this.datosViaje);
     },err => {  
         this.toast.presentToast("Ocurrio un Error: " + err["error"].message,"danger");      
