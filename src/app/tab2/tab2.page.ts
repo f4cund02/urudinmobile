@@ -134,8 +134,10 @@ export class Tab2Page implements OnInit, AfterViewInit {
       console.log("COSTOTOAL:"+this.resumenViaje.costoTotal);
       this.storage.get('me').then(
         data => {
-          const aux = data as DTUser;
+          var aux = data as DTUser;
           this.saldo = aux.saldo - this.resumenViaje.costoTotal;
+          aux.saldo = this.saldo 
+          console.log("Saldo actualizado:", aux.saldo);
           this.storage.set('me',aux)   ;
         },
         err => {
