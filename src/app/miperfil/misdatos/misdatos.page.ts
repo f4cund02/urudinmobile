@@ -43,16 +43,18 @@ export class MisdatosPage implements OnInit {
     console.log("this.hasChanged():"+this.hasChanged());
     if (this.hasChanged()) {
       this.toast.presentToast("Cargando...", "primary");
+      this.toast.presentToast("Cargando...", "primary");
       this.userAPI.update(this.user).subscribe(
         result => {
           console.log(result);
           this.storage.remove('me');
           this.storage.set('me', result);
-          this.toast.presentToast('Los datos han sido actualizados.', 'success');
-          this.router.navigate(['/tabs/tab1']);
+          this.toast.presentToast('Los datos han sido actualizados, volviendo a la pagina principal', 'success');
+          this.router.navigate(['/tabs/tab2']);
         },
         error => {
-          this.toast.presentToast("Ocurrio un Error: " + error["error"].message,"danger");   
+          this.toast.presentToast("El correo ingresado ya se encuentra en nuestro sistema","danger");   
+        
         }
       );
     } else {

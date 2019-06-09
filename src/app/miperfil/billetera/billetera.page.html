@@ -28,8 +28,6 @@
         <ion-input [(ngModel)]="monto" type="number"  placeholder="Monto"></ion-input>
         <ion-button color="danger" (click)="cancelar()" expand="block">Cancelar</ion-button>
         <ion-button *ngIf="monto>99 && monto<99999" color="success" (click)="cargarmonto()" expand="block">Cargar</ion-button>
-        
-
       </ion-card-content>
 
     </ion-card>
