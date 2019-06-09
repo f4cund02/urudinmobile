@@ -19,7 +19,9 @@
         <ion-card-content  *ngIf="!enViaje && !viajeFinalizado">Costo Base: {{scooterinfo?.costoBase}} <br>
             Costo Por Minuto: {{scooterinfo?.costoMinuto}} <br>
             Encendido: {{scooterinfo?.encendido}}  <br>
-            Siendo Utilizado: {{scooterinfo?.enuso}}
+            Siendo Utilizado: {{scooterinfo?.enuso}} <br>
+            Si el scooter esta apagado usted no tendra la opcion de Iniciar Viaje
+
         </ion-card-content>
         <ion-card-content  *ngIf="enViaje">Costo Base: {{scooterinfo?.costoBase}} <br>
           Costo Por Minuto: {{scooterinfo?.costoMinuto}} <br>
@@ -40,7 +42,7 @@
       </ion-card>
 
       <div>
-        <ion-button (click)="iniciarViaje()"  *ngIf="!enViaje && !viajeFinalizado"  expand="block">Iniciar viaje</ion-button>
+        <ion-button (click)="iniciarViaje()"  *ngIf="!enViaje && !viajeFinalizado && scooterinfo?.encendido"  expand="block">Iniciar viaje</ion-button>
         <ion-button (click)="volver()" expand="block" *ngIf="!enViaje  && !viajeFinalizado">Volver</ion-button>
         <ion-button (click)="finalizarviaje()" expand="block" *ngIf="enViaje && !viajeFinalizado" >FINALIZAR VIAJE</ion-button>
         <ion-button (click)="volver()" expand="block" *ngIf="viajeFinalizado">ACEPTAR</ion-button>

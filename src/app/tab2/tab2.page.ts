@@ -182,30 +182,33 @@ export class Tab2Page implements OnInit, AfterViewInit {
     var paramData : dataStartViaje;
     var scooterr : viaje_scooter;
     var client: viaje_Cliente;
-    scooterr = {
-      id: this.scooterinfo.id
-    }
-    client = {
-      id: this.userme.id
-    }
-    paramData = {
-      cliente: client,
-      scooter: scooterr
-    }
 
-    this.rest.viajeIniciar(paramData).subscribe(data=>{
-      var response : ResponseStartViaje;
-      response = data as ResponseStartViaje;
-      this.toast.presentToast("Comenzando Viaje. #Viaje ["+response.id+"]","primary");
-      //'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'light' | 'medium' | 'dark';
-      this.datosViaje = response;
-      this.enViaje = true;
-      //TODO: Agregar listener que cuando cambie la variable "enViaje" a false , se termine el viaje.
-      //  usar esto para leer variable.. cada cierto tiempo   }.bind(this), 6000);
-      console.log("Datosviaje:" + this.datosViaje);
-    },err => {  
-        this.toast.presentToast("Ocurrio un Error: " + err["error"].message,"danger");      
-    })
+
+      scooterr = {
+        id: this.scooterinfo.id
+      }
+      client = {
+        id: this.userme.id
+      }
+      paramData = {
+        cliente: client,
+        scooter: scooterr
+      }
+
+      this.rest.viajeIniciar(paramData).subscribe(data=>{
+        var response : ResponseStartViaje;
+        response = data as ResponseStartViaje;
+        this.toast.presentToast("Comenzando Viaje. #Viaje ["+response.id+"]","primary");
+        //'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'light' | 'medium' | 'dark';
+        this.datosViaje = response;
+        this.enViaje = true;
+        //TODO: Agregar listener que cuando cambie la variable "enViaje" a false , se termine el viaje.
+        //  usar esto para leer variable.. cada cierto tiempo   }.bind(this), 6000);
+        console.log("Datosviaje:" + this.datosViaje);
+      },err => {  
+          this.toast.presentToast("Ocurrio un Error: " + err["error"].message,"danger");      
+      })
+   
+
   }
-
 }
