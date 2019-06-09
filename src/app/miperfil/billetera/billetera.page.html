@@ -23,12 +23,11 @@
   </ion-card>
   <div id="divoculto" style="display: none">
     <ion-card>
-      <ion-card-header>Ingrese el monto a cargar </ion-card-header>
+      <ion-card-header>Ingrese el monto a cargar [99 - 99999]</ion-card-header>
       <ion-card-content>
-        <ion-input [(ngModel)]="monto" type="number" placeholder="Monto"></ion-input>
-        <!-- TODO:Establece minimo y maximo-->
+        <ion-input [(ngModel)]="monto" type="number"  placeholder="Monto"></ion-input>
         <ion-button color="danger" (click)="cancelar()" expand="block">Cancelar</ion-button>
-        <ion-button color="success" (click)="cargarmonto()" expand="block">Cargar</ion-button>
+        <ion-button *ngIf="monto>99 && monto<99999" color="success" (click)="cargarmonto()" expand="block">Cargar</ion-button>
         
 
       </ion-card-content>

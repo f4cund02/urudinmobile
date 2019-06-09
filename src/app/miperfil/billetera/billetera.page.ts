@@ -65,7 +65,7 @@ export class BilleteraPage implements OnInit {
         // Only needed if you get an "Internal Service Error" after PayPal login!
         // payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
       })).then(() => {
-        console.log("Creando paymento con ["+this.monto.toString()+"][USD]");
+        console.log("Creando payment con ["+this.monto.toString()+"][USD]");
         const payment = new PayPalPayment(this.monto.toString(), 'USD', 'Description', 'sale');
         this.payPal.renderSinglePaymentUI(payment).then((res) => {
           console.log(res);
@@ -82,6 +82,7 @@ export class BilleteraPage implements OnInit {
               this.toast.presentToast('Saldo acreditado.', 'success');
               this.storage.remove('me');
               this.storage.set('me', respDT);
+              this.navCtrl.navigateForward('/tabs/tab2');
               //console.log("reload..");
               //location.reload();
               //this.navCtrl.navigateBack('/tabs/tab1');
