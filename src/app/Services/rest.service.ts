@@ -22,14 +22,7 @@ export class RestService {
   }
 
   apagarscooter(idscooter : number) {
-    var data = JSON.stringify({"id": idscooter, "numeroserial": "QWERTY", "encendido": false,"enuso": false, "eliminado": false});
-    return this.http.put('http://23.20.14.36:8080/rest-api/api/scooter/'
-      , data, {
-        headers: {
-          'content-type': 'application/json'
-        }
-      }
-    );
+    return this.http.get('http://23.20.14.36:8080/rest-api/api/scooter/apagado/' + idscooter );
   }
   
   setLatitudLongitudActuales(lat, long){
